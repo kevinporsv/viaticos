@@ -911,6 +911,7 @@
                 diferencia: totalViaticos - totalGastado
             };
 
+            // Guardar en el array y localStorage
             informesGuardados.unshift(informe);
             localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
             actualizarContadorHistorial();
@@ -918,7 +919,11 @@
             // Limpiar todo para un nuevo informe
             limpiarFormulario();
             
-            alert('✅ Informe guardado exitosamente. Puedes iniciar un nuevo informe.');
+            // Mostrar mensaje y redirigir al historial
+            alert('✅ Informe guardado exitosamente.');
+            
+            // Automáticamente mostrar el historial para que vea su informe guardado
+            mostrarVista('historial');
         }
 
         function limpiarFormulario() {
