@@ -441,6 +441,13 @@
             gap: 8px;
         }
 
+        @media print {
+            .consolidado-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 3px;
+            }
+        }
+
         .consolidado-item {
             background: white;
             padding: 8px;
@@ -663,8 +670,23 @@
         const IVA_RATE = 0.13;
 
         let eventos = [];
-        let informesGuardados = JSON.parse(localStorage.getItem('informesViaticos')) || [];
+        let informesGuardados = [];
         let informeSeleccionado = null;
+
+        // Cargar informes guardados del localStorage
+        try {
+            const guardados = localStorage.getItem('informesViaticos');
+            if (guardados) {
+                informesGuardados = JSON.parse(guardados);
+                // Filtrar informes válidos (que tengan eventos)
+                informesGuardados = informesGuardados.filter(inf => inf.eventos && inf.eventos.length > 0);
+                // Guardar de nuevo por si se filtraron algunos
+                localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
+            }
+        } catch (e) {
+            console.error('Error al cargar informes:', e);
+            informesGuardados = [];
+        }
 
         actualizarContadorHistorial();
 
@@ -682,13 +704,21 @@
                 document.getElementById('vista-informe').classList.remove('hidden');
                 informeSeleccionado = null;
                 renderInforme();
+                
+                // Mostrar u ocultar botón de imprimir según si hay contenido
+                const botonImprimir = document.querySelector('#vista-informe .no-print');
+                if (eventos.length === 0 && !informeSeleccionado) {
+                    botonImprimir.style.display = 'none';
+                } else {
+                    botonImprimir.style.display = 'block';
+                }
             }
         }
 
         function agregarEvento() {
             const evento = {
                 id: Date.now(),
-                nombre: `Evento ${eventos.length + 1}`,
+                nombre: '',
                 vehiculos: '',
                 viaticosAsignados: 0,
                 gastos: {}
@@ -773,7 +803,7 @@
                 return `
                     <div class="evento-card">
                         <div class="evento-header">
-                            <h3>Evento ${idx + 1}</h3>
+                            <h3>${evento.nombre || 'Evento ' + (idx + 1)}</h3>
                             <button class="btn btn-danger" onclick="eliminarEvento(${evento.id})">🗑️</button>
                         </div>
 
@@ -781,6 +811,7 @@
                             <div class="form-group">
                                 <label>Nombre del Evento</label>
                                 <input type="text" value="${evento.nombre}" 
+                                    placeholder="Ingrese nombre del evento"
                                     onchange="actualizarEvento(${evento.id}, 'nombre', this.value)">
                             </div>
                             <div class="form-group">
@@ -841,8 +872,25 @@
         }
 
         function guardarInforme() {
+            // Validar que haya eventos
             if (eventos.length === 0) {
-                alert('Debes agregar al menos un evento antes de guardar el informe');
+                alert('❌ Debes agregar al menos un evento antes de guardar el informe');
+                return;
+            }
+
+            // Validar que al menos un evento tenga gastos
+            const hayGastos = eventos.some(e => calcularTotalConIVA(e.gastos) > 0);
+            if (!hayGastos) {
+                alert('❌ Debes ingresar al menos un gasto en algún evento antes de guardar');
+                return;
+            }
+
+            // Validar información general
+            const lider = document.getElementById('lider').value.trim();
+            const semana = document.getElementById('semana').value.trim();
+            
+            if (!lider || !semana) {
+                alert('❌ Debes completar al menos el nombre del líder y el número de semana');
                 return;
             }
 
@@ -853,9 +901,9 @@
                 id: Date.now(),
                 fecha: new Date().toISOString(),
                 infoGeneral: {
-                    lider: document.getElementById('lider').value,
-                    semana: document.getElementById('semana').value,
-                    cuarto: document.getElementById('cuarto').value
+                    lider: lider,
+                    semana: semana,
+                    cuarto: document.getElementById('cuarto').value.trim()
                 },
                 eventos: JSON.parse(JSON.stringify(eventos)),
                 totalViaticosAsignados: totalViaticos,
@@ -866,7 +914,22 @@
             informesGuardados.unshift(informe);
             localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
             actualizarContadorHistorial();
-            alert('✅ Informe guardado exitosamente');
+            
+            // Limpiar todo para un nuevo informe
+            limpiarFormulario();
+            
+            alert('✅ Informe guardado exitosamente. Puedes iniciar un nuevo informe.');
+        }
+
+        function limpiarFormulario() {
+            // Limpiar información general
+            document.getElementById('lider').value = '';
+            document.getElementById('semana').value = '';
+            document.getElementById('cuarto').value = '';
+            
+            // Limpiar eventos
+            eventos = [];
+            renderEventos();
         }
 
         function actualizarContadorHistorial() {
@@ -885,6 +948,10 @@
         function verInformeGuardado(id) {
             informeSeleccionado = informesGuardados.find(i => i.id === id);
             mostrarVista('informe');
+            
+            // Asegurarse de que el botón de imprimir esté visible
+            const botonImprimir = document.querySelector('#vista-informe .no-print');
+            botonImprimir.style.display = 'block';
         }
 
         function renderHistorial() {
@@ -950,6 +1017,18 @@
                 totalGastado: eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0)
             };
 
+            // Si no hay eventos y no es un informe guardado, mostrar mensaje
+            if (!informeSeleccionado && eventos.length === 0) {
+                document.getElementById('informe-content').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📄</div>
+                        <p style="font-size: 18px; margin-bottom: 8px;">No hay eventos para generar informe</p>
+                        <p>Agrega eventos en la pestaña de Registro para poder generar un informe</p>
+                    </div>
+                `;
+                return;
+            }
+
             datos.diferencia = datos.totalViaticosAsignados - datos.totalGastado;
 
             const consolidado = {};
@@ -1010,18 +1089,20 @@
                         return `
                             <div class="evento-informe">
                                 <div class="evento-informe-header">
-                                    <div>
-                                        <h3>${evento.nombre}</h3>
-                                        ${evento.vehiculos ? `<p>🚗 ${evento.vehiculos}</p>` : ''}
-                                    </div>
-                                    <div class="evento-stats">
-                                        <span>Viáticos: $${viaticosEvento.toFixed(2)}</span>
-                                        <span>|</span>
-                                        <span>Gastado: $${totalEvento.toFixed(2)}</span>
-                                        <span>|</span>
-                                        <span style="color: ${diferenciaEvento >= 0 ? '#86efac' : '#fca5a5'};">
-                                            ${diferenciaEvento >= 0 ? 'Saldo:' : 'Déficit:'} $${Math.abs(diferenciaEvento).toFixed(2)}
-                                        </span>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                        <div>
+                                            <h3>${evento.nombre || 'Evento ' + (datos.eventos.indexOf(evento) + 1)}</h3>
+                                            ${evento.vehiculos ? `<p>🚗 ${evento.vehiculos}</p>` : ''}
+                                        </div>
+                                        <div class="evento-stats">
+                                            <span>Viáticos: ${viaticosEvento.toFixed(2)}</span>
+                                            <span>|</span>
+                                            <span>Gastado: ${totalEvento.toFixed(2)}</span>
+                                            <span>|</span>
+                                            <span style="color: ${diferenciaEvento >= 0 ? '#86efac' : '#fca5a5'};">
+                                                ${diferenciaEvento >= 0 ? 'Saldo:' : 'Déficit:'} ${Math.abs(diferenciaEvento).toFixed(2)}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <table>
