@@ -190,22 +190,30 @@
         }
 
         .resumen-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .resumen-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 4px;
         }
 
         .resumen-item.total {
-            border-top: 2px solid #d1d5db;
+            border-top: 2px solid #2563eb;
             padding-top: 12px;
             margin-top: 8px;
             font-weight: bold;
+            background: #eff6ff;
+        }
+
+        .resumen-item.destacado {
+            background: #eff6ff;
+            border-left: 3px solid #2563eb;
         }
 
         .summary-card {
