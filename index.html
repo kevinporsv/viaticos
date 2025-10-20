@@ -913,14 +913,23 @@
 
             // Guardar en el array y localStorage
             informesGuardados.unshift(informe);
-            localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
+            
+            try {
+                localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
+                console.log('✅ Informe guardado:', informe);
+                console.log('📦 Total de informes:', informesGuardados.length);
+            } catch (e) {
+                alert('❌ Error al guardar el informe: ' + e.message);
+                return;
+            }
+            
             actualizarContadorHistorial();
             
             // Limpiar todo para un nuevo informe
             limpiarFormulario();
             
             // Mostrar mensaje y redirigir al historial
-            alert('✅ Informe guardado exitosamente.');
+            alert('✅ Informe guardado exitosamente. Total de informes: ' + informesGuardados.length);
             
             // Automáticamente mostrar el historial para que vea su informe guardado
             mostrarVista('historial');
@@ -951,12 +960,34 @@
         }
 
         function verInformeGuardado(id) {
+            console.log('🔍 Buscando informe con id:', id);
+            console.log('📦 Informes disponibles:', informesGuardados.length);
+            
             informeSeleccionado = informesGuardados.find(i => i.id === id);
-            mostrarVista('informe');
+            
+            console.log('📄 Informe seleccionado:', informeSeleccionado);
+            
+            if (!informeSeleccionado) {
+                alert('❌ Error: No se pudo cargar el informe');
+                console.error('❌ No se encontró el informe con id:', id);
+                return;
+            }
+            
+            console.log('✅ Informe cargado con', informeSeleccionado.eventos.length, 'eventos');
+            
+            // Cambiar a vista de informe
+            document.getElementById('vista-registro').classList.add('hidden');
+            document.getElementById('vista-historial').classList.add('hidden');
+            document.getElementById('vista-informe').classList.remove('hidden');
+            
+            // Renderizar el informe guardado
+            renderInforme();
             
             // Asegurarse de que el botón de imprimir esté visible
             const botonImprimir = document.querySelector('#vista-informe .no-print');
-            botonImprimir.style.display = 'block';
+            if (botonImprimir) {
+                botonImprimir.style.display = 'block';
+            }
         }
 
         function renderHistorial() {
@@ -1011,19 +1042,35 @@
         }
 
         function renderInforme() {
-            const datos = informeSeleccionado || {
-                infoGeneral: {
-                    lider: document.getElementById('lider').value,
-                    semana: document.getElementById('semana').value,
-                    cuarto: document.getElementById('cuarto').value
-                },
-                eventos: eventos,
-                totalViaticosAsignados: eventos.reduce((sum, e) => sum + (parseFloat(e.viaticosAsignados) || 0), 0),
-                totalGastado: eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0)
-            };
+            console.log('🖨️ Renderizando informe...');
+            console.log('📋 informeSeleccionado:', informeSeleccionado);
+            
+            let datos;
+            
+            if (informeSeleccionado) {
+                // Usar datos del informe guardado
+                datos = informeSeleccionado;
+                console.log('✅ Usando informe guardado con', datos.eventos.length, 'eventos');
+            } else {
+                // Usar datos actuales del formulario
+                datos = {
+                    infoGeneral: {
+                        lider: document.getElementById('lider').value,
+                        semana: document.getElementById('semana').value,
+                        cuarto: document.getElementById('cuarto').value
+                    },
+                    eventos: eventos,
+                    totalViaticosAsignados: eventos.reduce((sum, e) => sum + (parseFloat(e.viaticosAsignados) || 0), 0),
+                    totalGastado: eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0),
+                    diferencia: 0
+                };
+                datos.diferencia = datos.totalViaticosAsignados - datos.totalGastado;
+                console.log('📝 Usando datos actuales del formulario con', datos.eventos.length, 'eventos');
+            }
 
-            // Si no hay eventos y no es un informe guardado, mostrar mensaje
-            if (!informeSeleccionado && eventos.length === 0) {
+            // Si no hay eventos para mostrar
+            if (!datos.eventos || datos.eventos.length === 0) {
+                console.log('⚠️ No hay eventos para mostrar');
                 document.getElementById('informe-content').innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📄</div>
@@ -1034,7 +1081,7 @@
                 return;
             }
 
-            datos.diferencia = datos.totalViaticosAsignados - datos.totalGastado;
+            console.log('✅ Generando HTML del informe...');
 
             const consolidado = {};
             CATEGORIAS.forEach(cat => {
