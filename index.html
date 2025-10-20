@@ -288,12 +288,12 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 16px 0;
-            font-size: 14px;
+            margin: 8px 0;
+            font-size: 11px;
         }
 
         th, td {
-            padding: 12px;
+            padding: 6px 8px;
             text-align: left;
             border: 1px solid #d1d5db;
         }
@@ -301,102 +301,164 @@
         th {
             background-color: #f3f4f6;
             font-weight: 600;
+            font-size: 10px;
         }
 
         .informe-header {
             text-align: center;
-            border-bottom: 4px solid #2563eb;
-            padding-bottom: 24px;
-            margin-bottom: 32px;
+            border-bottom: 3px solid #1f2937;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .informe-header h1 {
-            margin-bottom: 16px;
+            font-size: 20px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
             background-color: #f9fafb;
-            padding: 16px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 11px;
         }
 
         .info-item p:first-child {
             color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 4px;
+            font-size: 10px;
+            margin-bottom: 2px;
         }
 
         .info-item p:last-child {
             font-weight: bold;
             color: #1f2937;
+            font-size: 11px;
         }
 
         .resumen-ejecutivo {
-            background-color: #eff6ff;
-            border-left: 4px solid #2563eb;
-            padding: 24px;
-            margin-bottom: 32px;
+            background-color: #f3f4f6;
+            border: 2px solid #1f2937;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+
+        .resumen-ejecutivo h2 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .resumen-totales {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .resumen-totales-item {
+            background: white;
+            padding: 8px;
+            text-align: center;
+            border-radius: 4px;
+            border: 1px solid #d1d5db;
+        }
+
+        .resumen-totales-item p:first-child {
+            font-size: 9px;
+            color: #6b7280;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .resumen-totales-item p:last-child {
+            font-size: 16px;
+            font-weight: bold;
         }
 
         .evento-informe {
-            margin-bottom: 32px;
+            margin-bottom: 12px;
             border: 1px solid #d1d5db;
-            border-radius: 12px;
+            border-radius: 4px;
             overflow: hidden;
+            page-break-inside: avoid;
         }
 
         .evento-informe-header {
-            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            background: #1f2937;
             color: white;
-            padding: 20px;
+            padding: 8px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        .evento-informe-header h3 {
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .evento-informe-header p {
+            font-size: 10px;
+            margin: 0;
+        }
+
+        .evento-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 10px;
+        }
+
+        .consolidado-section {
+            background-color: #f9fafb;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 12px;
+        }
+
+        .consolidado-section h2 {
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
         .consolidado-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
         }
 
         .consolidado-item {
             background: white;
-            padding: 16px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 4px;
             border: 1px solid #d1d5db;
+            text-align: center;
         }
 
         .consolidado-item p:first-child {
-            font-size: 12px;
+            font-size: 9px;
             font-weight: 600;
             color: #6b7280;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .consolidado-item p:last-child {
-            font-size: 18px;
+            font-size: 13px;
             font-weight: bold;
             color: #1f2937;
         }
 
-        .observaciones {
-            margin-top: 32px;
-            border-top: 2px solid #d1d5db;
-            padding-top: 24px;
-        }
-
-        .observaciones textarea {
-            width: 100%;
-            height: 100px;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-family: inherit;
-            resize: vertical;
+        .consolidado-item span {
+            font-size: 8px;
+            color: #6b7280;
+            display: block;
+            margin-top: 2px;
         }
 
         .hidden {
@@ -404,28 +466,107 @@
         }
 
         @media print {
+            @page {
+                margin: 1cm;
+                size: letter;
+            }
+
             body {
                 background: white;
                 padding: 0;
             }
+
             .no-print {
                 display: none !important;
             }
+
             .card {
                 box-shadow: none;
                 page-break-inside: avoid;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .informe-header h1 {
+                font-size: 18px;
+            }
+
+            table {
+                font-size: 9px;
+            }
+
+            th, td {
+                padding: 4px 6px;
+            }
+
+            .evento-informe {
+                margin-bottom: 8px;
+            }
+
+            .resumen-ejecutivo {
+                padding: 8px;
+                margin-bottom: 12px;
+            }
+
+            .consolidado-section {
+                padding: 8px;
             }
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
             .form-grid,
             .gastos-grid,
             .summary-grid {
                 grid-template-columns: 1fr;
             }
+
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .resumen-totales {
+                grid-template-columns: 1fr;
+            }
             
             h1 {
                 font-size: 1.5em;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .historial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .evento-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .gastos-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .consolidado-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -517,7 +658,6 @@
         let informesGuardados = JSON.parse(localStorage.getItem('informesViaticos')) || [];
         let informeSeleccionado = null;
 
-        // Inicializar
         actualizarContadorHistorial();
 
         function mostrarVista(vista) {
@@ -818,43 +958,42 @@
                         <h1>INFORME DE VIÁTICOS SEMANAL</h1>
                         <div class="info-grid">
                             <div class="info-item">
-                                <p>Líder Responsable</p>
+                                <p>LÍDER RESPONSABLE</p>
                                 <p>${datos.infoGeneral.lider || 'N/A'}</p>
                             </div>
                             <div class="info-item">
-                                <p>Semana</p>
+                                <p>SEMANA</p>
                                 <p>${datos.infoGeneral.semana || 'N/A'}</p>
                             </div>
                             <div class="info-item">
-                                <p>No. Cuarto</p>
+                                <p>NO. CUARTO</p>
                                 <p>${datos.infoGeneral.cuarto || 'N/A'}</p>
                             </div>
                             <div class="info-item">
-                                <p>Fecha de Reporte</p>
+                                <p>FECHA</p>
                                 <p>${new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="resumen-ejecutivo">
-                        <h2 style="margin-bottom: 16px;">Resumen</h2>
-                        <div class="summary-grid" style="margin-top: 0;">
-                            <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                                <p style="font-size: 14px; color: #6b7280; margin-bottom: 4px;">Viáticos Asignados</p>
-                                <h3 style="font-size: 24px; font-weight: bold; color: #1f2937;">$${datos.totalViaticosAsignados.toFixed(2)}</h3>
+                        <h2>Resumen General</h2>
+                        <div class="resumen-totales">
+                            <div class="resumen-totales-item">
+                                <p>Viáticos Asignados</p>
+                                <p style="color: #1f2937;">$${datos.totalViaticosAsignados.toFixed(2)}</p>
                             </div>
-                            <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                                <p style="font-size: 14px; color: #6b7280; margin-bottom: 4px;">Total</p>
-                                <h3 style="font-size: 24px; font-weight: bold; color: #2563eb;">$${datos.totalGastado.toFixed(2)}</h3>
+                            <div class="resumen-totales-item">
+                                <p>Total Gastado</p>
+                                <p style="color: #2563eb;">$${datos.totalGastado.toFixed(2)}</p>
                             </div>
-                            <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); ${datos.diferencia < 0 ? 'border: 2px solid #dc2626;' : ''}">
-                                <p style="font-size: 14px; color: #6b7280; margin-bottom: 4px;">${datos.diferencia >= 0 ? 'Saldo Disponible' : 'Sobregiro'}</p>
-                                <h3 style="font-size: 24px; font-weight: bold; color: ${datos.diferencia >= 0 ? '#16a34a' : '#dc2626'};">$${Math.abs(datos.diferencia).toFixed(2)}</h3>
+                            <div class="resumen-totales-item" style="${datos.diferencia < 0 ? 'border: 2px solid #dc2626;' : ''}">
+                                <p>${datos.diferencia >= 0 ? 'Saldo' : 'Sobregiro'}</p>
+                                <p style="color: ${datos.diferencia >= 0 ? '#16a34a' : '#dc2626'};">$${Math.abs(datos.diferencia).toFixed(2)}</p>
                             </div>
                         </div>
                     </div>
 
-                    <h2 style="margin-bottom: 16px;">Detalle de Eventos</h2>
                     ${datos.eventos.map(evento => {
                         const totalEvento = calcularTotalConIVA(evento.gastos);
                         const viaticosEvento = parseFloat(evento.viaticosAsignados) || 0;
@@ -865,23 +1004,25 @@
                                 <div class="evento-informe-header">
                                     <div>
                                         <h3>${evento.nombre}</h3>
-                                        ${evento.vehiculos ? `<p style="font-size: 14px; opacity: 0.9; margin-top: 4px;">🚗 ${evento.vehiculos}</p>` : ''}
+                                        ${evento.vehiculos ? `<p>🚗 ${evento.vehiculos}</p>` : ''}
                                     </div>
-                                    <div style="text-align: right;">
-                                        <p style="font-size: 14px; opacity: 0.9;">Viáticos: $${viaticosEvento.toFixed(2)}</p>
-                                        <p style="font-size: 14px; opacity: 0.9;">Total Gastado: $${totalEvento.toFixed(2)}</p>
-                                        <p style="font-size: 14px; font-weight: 600; color: ${diferenciaEvento >= 0 ? '#86efac' : '#fca5a5'};">
+                                    <div class="evento-stats">
+                                        <span>Viáticos: $${viaticosEvento.toFixed(2)}</span>
+                                        <span>|</span>
+                                        <span>Gastado: $${totalEvento.toFixed(2)}</span>
+                                        <span>|</span>
+                                        <span style="color: ${diferenciaEvento >= 0 ? '#86efac' : '#fca5a5'};">
                                             ${diferenciaEvento >= 0 ? 'Saldo:' : 'Déficit:'} $${Math.abs(diferenciaEvento).toFixed(2)}
-                                        </p>
+                                        </span>
                                     </div>
                                 </div>
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Categoría</th>
-                                            <th style="text-align: right;">Monto Base</th>
+                                            <th>CATEGORÍA</th>
+                                            <th style="text-align: right;">MONTO BASE</th>
                                             <th style="text-align: right;">IVA 13%</th>
-                                            <th style="text-align: right;">Total</th>
+                                            <th style="text-align: right;">TOTAL</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -899,9 +1040,9 @@
                                                 </tr>
                                             `;
                                         }).join('')}
-                                        <tr style="background-color: #f3f4f6; font-weight: bold;">
+                                        <tr style="background-color: #1f2937; color: white; font-weight: bold;">
                                             <td colspan="3">TOTAL DEL EVENTO</td>
-                                            <td style="text-align: right; color: #2563eb; font-size: 18px;">$${totalEvento.toFixed(2)}</td>
+                                            <td style="text-align: right;">$${totalEvento.toFixed(2)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -909,8 +1050,8 @@
                         `;
                     }).join('')}
 
-                    <div style="background-color: #f9fafb; padding: 24px; border-radius: 12px; margin-top: 32px;">
-                        <h2 style="margin-bottom: 16px;">Consolidado por Categoría</h2>
+                    <div class="consolidado-section">
+                        <h2>Consolidado por Categoría</h2>
                         <div class="consolidado-grid">
                             ${CATEGORIAS.map(cat => {
                                 if (consolidado[cat].total === 0) return '';
@@ -918,22 +1059,16 @@
                                     <div class="consolidado-item">
                                         <p>${cat}</p>
                                         <p>$${consolidado[cat].conIVA.toFixed(2)}</p>
-                                        ${consolidado[cat].iva > 0 ? `<p style="font-size: 12px; color: #6b7280;">+IVA $${consolidado[cat].iva.toFixed(2)}</p>` : ''}
+                                        ${consolidado[cat].iva > 0 ? `<span>IVA: $${consolidado[cat].iva.toFixed(2)}</span>` : ''}
                                     </div>
                                 `;
                             }).join('')}
                         </div>
                     </div>
-
-                    <div class="observaciones">
-                        <h3>Observaciones:</h3>
-                        <textarea placeholder="Escriba aquí sus observaciones..."></textarea>
-                    </div>
                 </div>
             `;
         }
 
-        // Inicializar la vista
         mostrarVista('registro');
     </script>
 </body>
