@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Viáticos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f9fafb;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #1f2937;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f3f4f6;
+        }
+
+        .btn-success {
+            background-color: #16a34a;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #15803d;
+        }
+
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+
+        .btn-purple {
+            background-color: #9333ea;
+            color: white;
+        }
+
+        .btn-purple:hover {
+            background-color: #7e22ce;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #1f2937;
+            font-size: 1.25em;
+            margin-bottom: 16px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .evento-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: white;
+        }
+
+        .evento-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .evento-header h3 {
+            color: #1f2937;
+            font-size: 1.1em;
+        }
+
+        .gastos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .gastos-grid label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .gastos-grid input {
+            font-size: 13px;
+            padding: 6px 10px;
+        }
+
+        .resumen-box {
+            background-color: #f9fafb;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .resumen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .resumen-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .resumen-item.total {
+            border-top: 2px solid #d1d5db;
+            padding-top: 12px;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .summary-item {
+            background: rgba(255,255,255,0.2);
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .summary-item p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .summary-item h3 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .deficit {
+            border: 2px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .historial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .historial-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .historial-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .historial-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .historial-info {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #d1d5db;
+        }
+
+        th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+        }
+
+        .informe-header {
+            text-align: center;
+            border-bottom: 4px solid #2563eb;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        .informe-header h1 {
+            margin-bottom: 16px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            background-color: #f9fafb;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .info-item p:first-child {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .info-item p:last-child {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .resumen-ejecutivo {
+            background-color: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .evento-informe {
+            margin-bottom: 32px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .evento-informe-header {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .consolidado-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .consolidado-item {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+        }
+
+        .consolidado-item p:first-child {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .consolidado-item p:last-child {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .observaciones {
+            margin-top: 32px;
+            border-top: 2px solid #d1d5db;
+            padding-top: 24px;
+        }
+
+        .observaciones textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .card {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid,
+            .gastos-grid,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header no-print">
+            <h1>Sistema de Gestión de Viáticos</h1>
+            <div class="nav-buttons">
+                <button class="btn btn-primary" onclick="mostrarVista('registro')">📝 Registro</button>
+                <button class="btn btn-secondary" onclick="mostrarVista('informe')">📄 Informe Actual</button>
+                <button class="btn btn-secondary" onclick="mostrarVista('historial')">
+                    📦 Historial (<span id="historial-count">0</span>)
+                </button>
+            </div>
+        </div>
+
+        <!-- Vista de Registro -->
+        <div id="vista-registro">
+            <div class="card">
+                <h2>Información General</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nombre del Líder</label>
+                        <input type="text" id="lider" placeholder="Ingrese nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Número de Semana</label>
+                        <input type="text" id="semana" placeholder="Ej: Semana 42">
+                    </div>
+                    <div class="form-group">
+                        <label>Número de Cuarto</label>
+                        <input type="text" id="cuarto" placeholder="Ej: 201">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success" onclick="agregarEvento()" style="width: 100%; margin-bottom: 20px;">
+                ➕ Agregar Evento
+            </button>
+
+            <div id="eventos-container"></div>
+
+            <div id="resumen-semanal" class="hidden">
+                <div class="summary-card">
+                    <h2 style="color: white;">Resumen Semanal</h2>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <p>Total Viáticos Asignados</p>
+                            <h3 id="total-viaticos-asignados">$0.00</h3>
+                        </div>
+                        <div class="summary-item">
+                            <p>Total Gastado</p>
+                            <h3 id="total-gastado">$0.00</h3>
+                        </div>
+                        <div class="summary-item" id="diferencia-card">
+                            <p id="diferencia-label">Saldo</p>
+                            <h3 id="diferencia-total">$0.00</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-purple" onclick="guardarInforme()" style="width: 100%;">
+                    💾 Guardar Informe
+                </button>
+            </div>
+        </div>
+
+        <!-- Vista de Historial -->
+        <div id="vista-historial" class="hidden">
+            <h2 style="margin-bottom: 24px;">Historial de Informes</h2>
+            <div id="historial-container"></div>
+        </div>
+
+        <!-- Vista de Informe -->
+        <div id="vista-informe" class="hidden">
+            <div class="no-print" style="margin-bottom: 16px; text-align: right;">
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Informe</button>
+            </div>
+            <div id="informe-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const CATEGORIAS = ['HOTEL', 'ALIMENTOS', 'GASOLINA', 'PAPELERIA', 'RECARGA', 'UBER', 'PARQUEO'];
+        const IVA_RATE = 0.13;
+
+        let eventos = [];
+        let informesGuardados = JSON.parse(localStorage.getItem('informesViaticos')) || [];
+        let informeSeleccionado = null;
+
+        // Inicializar
+        actualizarContadorHistorial();
+
+        function mostrarVista(vista) {
+            document.getElementById('vista-registro').classList.add('hidden');
+            document.getElementById('vista-historial').classList.add('hidden');
+            document.getElementById('vista-informe').classList.add('hidden');
+
+            if (vista === 'registro') {
+                document.getElementById('vista-registro').classList.remove('hidden');
+            } else if (vista === 'historial') {
+                document.getElementById('vista-historial').classList.remove('hidden');
+                renderHistorial();
+            } else if (vista === 'informe') {
+                document.getElementById('vista-informe').classList.remove('hidden');
+                informeSeleccionado = null;
+                renderInforme();
+            }
+        }
+
+        function agregarEvento() {
+            const evento = {
+                id: Date.now(),
+                nombre: `Evento ${eventos.length + 1}`,
+                vehiculos: '',
+                viaticosAsignados: 0,
+                gastos: {}
+            };
+            CATEGORIAS.forEach(cat => evento.gastos[cat] = 0);
+            eventos.push(evento);
+            renderEventos();
+        }
+
+        function eliminarEvento(id) {
+            if (confirm('¿Estás seguro de eliminar este evento?')) {
+                eventos = eventos.filter(e => e.id !== id);
+                renderEventos();
+            }
+        }
+
+        function actualizarEvento(id, campo, valor) {
+            const evento = eventos.find(e => e.id === id);
+            if (evento) {
+                evento[campo] = valor;
+                calcularTotales();
+            }
+        }
+
+        function actualizarGasto(id, categoria, valor) {
+            const evento = eventos.find(e => e.id === id);
+            if (evento) {
+                evento.gastos[categoria] = parseFloat(valor) || 0;
+                renderEventos();
+            }
+        }
+
+        function calcularTotalGastos(gastos) {
+            return Object.values(gastos).reduce((sum, val) => sum + val, 0);
+        }
+
+        function calcularIVA(gastos) {
+            const gastosConIVA = (gastos.GASOLINA || 0) + (gastos.HOTEL || 0);
+            return gastosConIVA * IVA_RATE;
+        }
+
+        function calcularTotalConIVA(gastos) {
+            return calcularTotalGastos(gastos) + calcularIVA(gastos);
+        }
+
+        function calcularTotales() {
+            const totalViaticos = eventos.reduce((sum, e) => sum + (parseFloat(e.viaticosAsignados) || 0), 0);
+            const totalGastado = eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0);
+            const diferencia = totalViaticos - totalGastado;
+
+            document.getElementById('total-viaticos-asignados').textContent = `$${totalViaticos.toFixed(2)}`;
+            document.getElementById('total-gastado').textContent = `$${totalGastado.toFixed(2)}`;
+            document.getElementById('diferencia-total').textContent = `$${Math.abs(diferencia).toFixed(2)}`;
+            document.getElementById('diferencia-label').textContent = diferencia >= 0 ? 'Saldo' : 'Déficit';
+            
+            const diferenciaCard = document.getElementById('diferencia-card');
+            if (diferencia < 0) {
+                diferenciaCard.classList.add('deficit');
+            } else {
+                diferenciaCard.classList.remove('deficit');
+            }
+        }
+
+        function renderEventos() {
+            const container = document.getElementById('eventos-container');
+            
+            if (eventos.length === 0) {
+                container.innerHTML = '';
+                document.getElementById('resumen-semanal').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('resumen-semanal').classList.remove('hidden');
+
+            container.innerHTML = eventos.map((evento, idx) => {
+                const totalGastos = calcularTotalGastos(evento.gastos);
+                const iva = calcularIVA(evento.gastos);
+                const totalConIVA = calcularTotalConIVA(evento.gastos);
+                const viaticos = parseFloat(evento.viaticosAsignados) || 0;
+                const diferencia = viaticos - totalConIVA;
+
+                return `
+                    <div class="evento-card">
+                        <div class="evento-header">
+                            <h3>Evento ${idx + 1}</h3>
+                            <button class="btn btn-danger" onclick="eliminarEvento(${evento.id})">🗑️</button>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nombre del Evento</label>
+                                <input type="text" value="${evento.nombre}" 
+                                    onchange="actualizarEvento(${evento.id}, 'nombre', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label>Vehículos Utilizados</label>
+                                <input type="text" value="${evento.vehiculos}" 
+                                    placeholder="Ej: Toyota Corolla ABC-123"
+                                    onchange="actualizarEvento(${evento.id}, 'vehiculos', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label>Viáticos Asignados ($)</label>
+                                <input type="number" step="0.01" value="${evento.viaticosAsignados}" 
+                                    onchange="actualizarEvento(${evento.id}, 'viaticosAsignados', this.value)">
+                            </div>
+                        </div>
+
+                        <div style="border-top: 1px solid #e5e7eb; margin-top: 16px; padding-top: 16px;">
+                            <h4 style="margin-bottom: 12px;">Gastos por Categoría</h4>
+                            <div class="gastos-grid">
+                                ${CATEGORIAS.map(cat => `
+                                    <div class="form-group">
+                                        <label>${cat}</label>
+                                        <input type="number" step="0.01" value="${evento.gastos[cat]}" 
+                                            onchange="actualizarGasto(${evento.id}, '${cat}', this.value)">
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="resumen-box">
+                                <div class="resumen-grid">
+                                    <div class="resumen-item">
+                                        <span style="color: #6b7280;">Subtotal:</span>
+                                        <strong>$${totalGastos.toFixed(2)}</strong>
+                                    </div>
+                                    <div class="resumen-item">
+                                        <span style="color: #6b7280;">IVA (13%):</span>
+                                        <strong>$${iva.toFixed(2)}</strong>
+                                    </div>
+                                    <div class="resumen-item">
+                                        <span style="color: #1f2937; font-weight: 600;">Total Gastado:</span>
+                                        <strong style="color: #2563eb;">$${totalConIVA.toFixed(2)}</strong>
+                                    </div>
+                                    <div class="resumen-item total">
+                                        <span>Viáticos Asignados:</span>
+                                        <strong>$${viaticos.toFixed(2)}</strong>
+                                    </div>
+                                    <div class="resumen-item" style="color: ${diferencia >= 0 ? '#16a34a' : '#dc2626'};">
+                                        <span style="font-weight: bold;">${diferencia >= 0 ? 'Saldo:' : 'Déficit:'}</span>
+                                        <strong>$${Math.abs(diferencia).toFixed(2)}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            calcularTotales();
+        }
+
+        function guardarInforme() {
+            if (eventos.length === 0) {
+                alert('Debes agregar al menos un evento antes de guardar el informe');
+                return;
+            }
+
+            const totalViaticos = eventos.reduce((sum, e) => sum + (parseFloat(e.viaticosAsignados) || 0), 0);
+            const totalGastado = eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0);
+
+            const informe = {
+                id: Date.now(),
+                fecha: new Date().toISOString(),
+                infoGeneral: {
+                    lider: document.getElementById('lider').value,
+                    semana: document.getElementById('semana').value,
+                    cuarto: document.getElementById('cuarto').value
+                },
+                eventos: JSON.parse(JSON.stringify(eventos)),
+                totalViaticosAsignados: totalViaticos,
+                totalGastado: totalGastado,
+                diferencia: totalViaticos - totalGastado
+            };
+
+            informesGuardados.unshift(informe);
+            localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
+            actualizarContadorHistorial();
+            alert('✅ Informe guardado exitosamente');
+        }
+
+        function actualizarContadorHistorial() {
+            document.getElementById('historial-count').textContent = informesGuardados.length;
+        }
+
+        function eliminarInformeGuardado(id) {
+            if (confirm('¿Estás seguro de eliminar este informe?')) {
+                informesGuardados = informesGuardados.filter(i => i.id !== id);
+                localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
+                actualizarContadorHistorial();
+                renderHistorial();
+            }
+        }
+
+        function verInformeGuardado(id) {
+            informeSeleccionado = informesGuardados.find(i => i.id === id);
+            mostrarVista('informe');
+        }
+
+        function renderHistorial() {
+            const container = document.getElementById('historial-container');
+
+            if (informesGuardados.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📦</div>
+                        <p style="font-size: 18px; margin-bottom: 8px;">No hay informes guardados aún</p>
+                        <p>Crea y guarda tu primer informe desde la pestaña de Registro</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="historial-grid">
+                    ${informesGuardados.map(informe => `
+                        <div class="historial-card">
+                            <div class="historial-header">
+                                <div>
+                                    <h3>${informe.infoGeneral.semana || 'Sin semana'}</h3>
+                                    <p style="font-size: 13px; color: #6b7280;">
+                                        ${new Date(informe.fecha).toLocaleDateString('es-ES', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}
+                                    </p>
+                                </div>
+                                <button class="btn btn-danger" onclick="eliminarInformeGuardado(${informe.id})">✕</button>
+                            </div>
+                            <div style="border-top: 1px solid #e5e7eb; padding-top: 12px;">
+                                <p class="historial-info"><strong>Líder:</strong> ${informe.infoGeneral.lider || 'N/A'}</p>
+                                <p class="historial-info"><strong>Eventos:</strong> ${informe.eventos.length}</p>
+                                <p class="historial-info"><strong>Viáticos totales:</strong> $${informe.totalViaticosAsignados.toFixed(2)}</p>
+                                <p class="historial-info"><strong>Total gastado:</strong> $${informe.totalGastado.toFixed(2)}</p>
+                                <p class="historial-info" style="color: ${informe.diferencia >= 0 ? '#16a34a' : '#dc2626'}; font-weight: 600;">
+                                    <strong>${informe.diferencia >= 0 ? 'Saldo:' : 'Déficit:'}</strong> $${Math.abs(informe.diferencia).toFixed(2)}
+                                </p>
+                            </div>
+                            <button class="btn btn-primary" onclick="verInformeGuardado(${informe.id})" style="width: 100%; margin-top: 12px;">
+                                👁️ Ver Informe
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderInforme() {
+            const datos = informeSeleccionado || {
+                infoGeneral: {
+                    lider: document.getElementById('lider').value,
+                    semana: document.getElementById('semana').value,
+                    cuarto: document.getElementById('cuarto').value
+                },
+                eventos: eventos,
+                totalViaticosAsignados: eventos.reduce((sum, e) => sum + (parseFloat(e.viaticosAsignados) || 0), 0),
+                totalGastado: eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0)
+            };
+
+            datos.diferencia = datos.totalViaticosAsignados - datos.totalGastado;
+
+            const consolidado = {};
+            CATEGORIAS.forEach(cat => {
+                const total = datos.eventos.reduce((sum, e) => sum + (e.gastos[cat] || 0), 0);
+                const tieneIVA = cat === 'GASOLINA' || cat === 'HOTEL';
+                const iva = tieneIVA ? total * IVA_RATE : 0;
+                consolidado[cat] = { total, iva, conIVA: total + iva };
+            });
+
+            document.getElementById('informe-content').innerHTML = `
+                <div class="card">
+                    <div class="informe-header">
+                        <h1>INFORME DE VIÁTICOS SEMANAL</h1>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <p>Líder Responsable</p>
+                                <p>${datos.infoGeneral.lider || 'N/A'}</p>
+                            </div>
+                            <div class="info-item">
+                                <p>Semana</p>
+                                <p>${datos.infoGeneral.semana || 'N/A'}</p>
+                            </div>
+                            <div class="info-item">
+                                <p>No. Cuarto</p>
+                                <p>${datos.infoGeneral.cuarto || 'N/A'}</p>
+                            </div>
+                            <div class="info-item">
+                                <p>Fecha de Reporte</p>
+                                <p>${new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resumen-ejecutivo">
+                        <h2 style="margin-bottom: 16px;">Resumen</h2>
+                        <div class="summary-grid" style="margin-top: 0;">
+                            <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                                <p style="font-size: 14px; color: #6b7280; margin-bottom: 4px;">Viáticos Asignados</p>
+                                <h3 style="font-size: 24px; font-weight: bold; color: #1f2937;">$${datos.totalViaticosAsignados.toFixed(2)}</h3>
+                            </div>
+                            <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                                <p style="font-size: 14px; color: #6b7280; margin-bottom: 4px;">Total</p>
+                                <h3 style="font-size: 24px; font-weight: bold; color: #2563eb;">$${datos.totalGastado.toFixed(2)}</h3>
+                            </div>
+                            <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); ${datos.diferencia < 0 ? 'border: 2px solid #dc2626;' : ''}">
+                                <p style="font-size: 14px; color: #6b7280; margin-bottom: 4px;">${datos.diferencia >= 0 ? 'Saldo Disponible' : 'Sobregiro'}</p>
+                                <h3 style="font-size: 24px; font-weight: bold; color: ${datos.diferencia >= 0 ? '#16a34a' : '#dc2626'};">$${Math.abs(datos.diferencia).toFixed(2)}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 style="margin-bottom: 16px;">Detalle de Eventos</h2>
+                    ${datos.eventos.map(evento => {
+                        const totalEvento = calcularTotalConIVA(evento.gastos);
+                        const viaticosEvento = parseFloat(evento.viaticosAsignados) || 0;
+                        const diferenciaEvento = viaticosEvento - totalEvento;
+
+                        return `
+                            <div class="evento-informe">
+                                <div class="evento-informe-header">
+                                    <div>
+                                        <h3>${evento.nombre}</h3>
+                                        ${evento.vehiculos ? `<p style="font-size: 14px; opacity: 0.9; margin-top: 4px;">🚗 ${evento.vehiculos}</p>` : ''}
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <p style="font-size: 14px; opacity: 0.9;">Viáticos: $${viaticosEvento.toFixed(2)}</p>
+                                        <p style="font-size: 14px; opacity: 0.9;">Total Gastado: $${totalEvento.toFixed(2)}</p>
+                                        <p style="font-size: 14px; font-weight: 600; color: ${diferenciaEvento >= 0 ? '#86efac' : '#fca5a5'};">
+                                            ${diferenciaEvento >= 0 ? 'Saldo:' : 'Déficit:'} $${Math.abs(diferenciaEvento).toFixed(2)}
+                                        </p>
+                                    </div>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Categoría</th>
+                                            <th style="text-align: right;">Monto Base</th>
+                                            <th style="text-align: right;">IVA 13%</th>
+                                            <th style="text-align: right;">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${CATEGORIAS.map(cat => {
+                                            const monto = evento.gastos[cat] || 0;
+                                            if (monto === 0) return '';
+                                            const tieneIVA = cat === 'GASOLINA' || cat === 'HOTEL';
+                                            const iva = tieneIVA ? monto * IVA_RATE : 0;
+                                            return `
+                                                <tr>
+                                                    <td><strong>${cat}</strong></td>
+                                                    <td style="text-align: right;">$${monto.toFixed(2)}</td>
+                                                    <td style="text-align: right;">${tieneIVA ? '$' + iva.toFixed(2) : '-'}</td>
+                                                    <td style="text-align: right;"><strong>$${(monto + iva).toFixed(2)}</strong></td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                        <tr style="background-color: #f3f4f6; font-weight: bold;">
+                                            <td colspan="3">TOTAL DEL EVENTO</td>
+                                            <td style="text-align: right; color: #2563eb; font-size: 18px;">$${totalEvento.toFixed(2)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        `;
+                    }).join('')}
+
+                    <div style="background-color: #f9fafb; padding: 24px; border-radius: 12px; margin-top: 32px;">
+                        <h2 style="margin-bottom: 16px;">Consolidado por Categoría</h2>
+                        <div class="consolidado-grid">
+                            ${CATEGORIAS.map(cat => {
+                                if (consolidado[cat].total === 0) return '';
+                                return `
+                                    <div class="consolidado-item">
+                                        <p>${cat}</p>
+                                        <p>$${consolidado[cat].conIVA.toFixed(2)}</p>
+                                        ${consolidado[cat].iva > 0 ? `<p style="font-size: 12px; color: #6b7280;">+IVA $${consolidado[cat].iva.toFixed(2)}</p>` : ''}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="observaciones">
+                        <h3>Observaciones:</h3>
+                        <textarea placeholder="Escriba aquí sus observaciones..."></textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Inicializar la vista
+        mostrarVista('registro');
+    </script>
+</body>
+</html>
