@@ -297,11 +297,11 @@
             width: 100%;
             border-collapse: collapse;
             margin: 8px 0;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         th, td {
-            padding: 6px 8px;
+            padding: 5px 8px;
             text-align: left;
             border: 1px solid #d1d5db;
         }
@@ -309,57 +309,59 @@
         th {
             background-color: #f3f4f6;
             font-weight: 600;
-            font-size: 10px;
+            font-size: 9px;
         }
 
         .informe-header {
             text-align: center;
             border-bottom: 3px solid #1f2937;
-            padding-bottom: 12px;
-            margin-bottom: 16px;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .informe-header h1 {
-            font-size: 20px;
-            margin-bottom: 8px;
+            font-size: 18px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-weight: bold;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 10px;
             background-color: #f9fafb;
-            padding: 12px;
+            padding: 10px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .info-item p:first-child {
             color: #6b7280;
-            font-size: 10px;
+            font-size: 9px;
             margin-bottom: 2px;
         }
 
         .info-item p:last-child {
             font-weight: bold;
             color: #1f2937;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .resumen-ejecutivo {
             background-color: #f3f4f6;
             border: 2px solid #1f2937;
-            padding: 12px;
+            padding: 10px;
             margin-bottom: 16px;
         }
 
         .resumen-ejecutivo h2 {
-            font-size: 13px;
-            margin-bottom: 8px;
+            font-size: 12px;
+            margin-bottom: 6px;
             text-align: center;
             text-transform: uppercase;
+            font-weight: bold;
         }
 
         .resumen-totales {
@@ -384,12 +386,12 @@
         }
 
         .resumen-totales-item p:last-child {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
         }
 
         .evento-informe {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 1px solid #d1d5db;
             border-radius: 4px;
             overflow: hidden;
@@ -399,53 +401,49 @@
         .evento-informe-header {
             background: #1f2937;
             color: white;
-            padding: 8px 12px;
+            padding: 6px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .evento-informe-header h3 {
-            font-size: 12px;
+            font-size: 11px;
             margin: 0;
+            font-weight: bold;
         }
 
         .evento-informe-header p {
-            font-size: 10px;
+            font-size: 9px;
             margin: 0;
         }
 
         .evento-stats {
             display: flex;
-            gap: 12px;
-            font-size: 10px;
+            gap: 10px;
+            font-size: 9px;
         }
 
         .consolidado-section {
             background-color: #f9fafb;
-            padding: 12px;
+            padding: 10px;
             border-radius: 4px;
-            margin-top: 12px;
+            margin-top: 16px;
+            border: 1px solid #d1d5db;
         }
 
         .consolidado-section h2 {
-            font-size: 13px;
+            font-size: 12px;
             margin-bottom: 8px;
             text-align: center;
             text-transform: uppercase;
+            font-weight: bold;
         }
 
         .consolidado-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 8px;
-        }
-
-        @media print {
-            .consolidado-grid {
-                grid-template-columns: repeat(7, 1fr);
-                gap: 2px;
-            }
         }
 
         .consolidado-item {
