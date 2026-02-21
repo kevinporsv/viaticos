@@ -5,1210 +5,448 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión de Viáticos</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #f9fafb;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            color: #1f2937;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background-color: #2563eb;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-        }
-
-        .btn-secondary {
-            background-color: white;
-            color: #374151;
-            border: 1px solid #d1d5db;
-        }
-
-        .btn-secondary:hover {
-            background-color: #f3f4f6;
-        }
-
-        .btn-success {
-            background-color: #16a34a;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: #15803d;
-        }
-
-        .btn-danger {
-            background-color: #dc2626;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #b91c1c;
-        }
-
-        .btn-purple {
-            background-color: #9333ea;
-            color: white;
-        }
-
-        .btn-purple:hover {
-            background-color: #7e22ce;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .card h2 {
-            color: #1f2937;
-            font-size: 1.25em;
-            margin-bottom: 16px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 8px;
-        }
-
-        input[type="text"],
-        input[type="number"] {
-            padding: 10px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .evento-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background: white;
-        }
-
-        .evento-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .evento-header h3 {
-            color: #1f2937;
-            font-size: 1.1em;
-        }
-
-        .gastos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .gastos-grid label {
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .gastos-grid input {
-            font-size: 13px;
-            padding: 6px 10px;
-        }
-
-        .resumen-box {
-            background-color: #f9fafb;
-            padding: 16px;
-            border-radius: 8px;
-            margin-top: 16px;
-        }
-
-        .resumen-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .resumen-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 12px;
-            background: white;
-            border-radius: 4px;
-        }
-
-        .resumen-item.total {
-            border-top: 2px solid #2563eb;
-            padding-top: 12px;
-            margin-top: 8px;
-            font-weight: bold;
-            background: #eff6ff;
-        }
-
-        .resumen-item.destacado {
-            background: #eff6ff;
-            border-left: 3px solid #2563eb;
-        }
-
-        .summary-card {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white;
-            padding: 24px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .summary-item {
-            background: rgba(255,255,255,0.2);
-            padding: 16px;
-            border-radius: 8px;
-        }
-
-        .summary-item p {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 8px;
-        }
-
-        .summary-item h3 {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .deficit {
-            border: 2px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .historial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .historial-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        .historial-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .historial-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .historial-info {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 8px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #9ca3af;
-        }
-
-        .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 8px 0;
-            font-size: 10px;
-        }
-
-        th, td {
-            padding: 5px 8px;
-            text-align: left;
-            border: 1px solid #d1d5db;
-        }
-
-        th {
-            background-color: #f3f4f6;
-            font-weight: 600;
-            font-size: 9px;
-        }
-
-        .informe-header {
-            text-align: center;
-            border-bottom: 3px solid #1f2937;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-        }
-
-        .informe-header h1 {
-            font-size: 18px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            background-color: #f9fafb;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 10px;
-        }
-
-        .info-item p:first-child {
-            color: #6b7280;
-            font-size: 9px;
-            margin-bottom: 2px;
-        }
-
-        .info-item p:last-child {
-            font-weight: bold;
-            color: #1f2937;
-            font-size: 10px;
-        }
-
-        .resumen-ejecutivo {
-            background-color: #f3f4f6;
-            border: 2px solid #1f2937;
-            padding: 10px;
-            margin-bottom: 16px;
-        }
-
-        .resumen-ejecutivo h2 {
-            font-size: 12px;
-            margin-bottom: 6px;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .resumen-totales {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .resumen-totales-item {
-            background: white;
-            padding: 8px;
-            text-align: center;
-            border-radius: 4px;
-            border: 1px solid #d1d5db;
-        }
-
-        .resumen-totales-item p:first-child {
-            font-size: 9px;
-            color: #6b7280;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .resumen-totales-item p:last-child {
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .evento-informe {
-            margin-bottom: 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            overflow: hidden;
-            page-break-inside: avoid;
-        }
-
-        .evento-informe-header {
-            background: #1f2937;
-            color: white;
-            padding: 6px 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .evento-informe-header h3 {
-            font-size: 11px;
-            margin: 0;
-            font-weight: bold;
-        }
-
-        .evento-informe-header p {
-            font-size: 9px;
-            margin: 0;
-        }
-
-        .evento-stats {
-            display: flex;
-            gap: 10px;
-            font-size: 9px;
-        }
-
-        .consolidado-section {
-            background-color: #f9fafb;
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 16px;
-            border: 1px solid #d1d5db;
-        }
-
-        .consolidado-section h2 {
-            font-size: 12px;
-            margin-bottom: 8px;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .consolidado-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 8px;
-        }
-
-        .consolidado-item {
-            background: white;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #d1d5db;
-            text-align: center;
-        }
-
-        .consolidado-item p:first-child {
-            font-size: 9px;
-            font-weight: 600;
-            color: #6b7280;
-            margin-bottom: 4px;
-        }
-
-        .consolidado-item p:last-child {
-            font-size: 13px;
-            font-weight: bold;
-            color: #1f2937;
-        }
-
-        .consolidado-item span {
-            font-size: 8px;
-            color: #6b7280;
-            display: block;
-            margin-top: 2px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media print {
-            @page {
-                margin: 1cm;
-                size: letter;
-            }
-
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .no-print {
-                display: none !important;
-            }
-
-            .card {
-                box-shadow: none;
-                page-break-inside: avoid;
-                padding: 0;
-                margin: 0;
-            }
-
-            .container {
-                max-width: 100%;
-            }
-
-            .informe-header h1 {
-                font-size: 18px;
-            }
-
-            table {
-                font-size: 9px;
-            }
-
-            th, td {
-                padding: 4px 6px;
-            }
-
-            .evento-informe {
-                margin-bottom: 8px;
-            }
-
-            .resumen-ejecutivo {
-                padding: 8px;
-                margin-bottom: 12px;
-            }
-
-            .consolidado-section {
-                padding: 8px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .form-grid,
-            .gastos-grid,
-            .summary-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .resumen-totales {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 1.5em;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .historial-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .evento-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .gastos-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .consolidado-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f9fafb;padding:20px;line-height:1.5;}
+        .container{max-width:1200px;margin:0 auto;}
+        h1{color:#1f2937;font-size:2em;margin-bottom:20px;}
+        .nav-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px;}
+        .btn{padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;transition:all .3s;display:inline-flex;align-items:center;gap:8px;}
+        .btn-sm{padding:5px 10px;font-size:12px;border-radius:6px;}
+        .btn-primary{background:#2563eb;color:#fff;} .btn-primary:hover{background:#1d4ed8;}
+        .btn-secondary{background:#fff;color:#374151;border:1px solid #d1d5db;} .btn-secondary:hover{background:#f3f4f6;}
+        .btn-success{background:#16a34a;color:#fff;} .btn-success:hover{background:#15803d;}
+        .btn-danger{background:#dc2626;color:#fff;} .btn-danger:hover{background:#b91c1c;}
+        .btn-warning{background:#d97706;color:#fff;} .btn-warning:hover{background:#b45309;}
+        .btn-purple{background:#9333ea;color:#fff;} .btn-purple:hover{background:#7e22ce;}
+        .card{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+        .card h2{color:#1f2937;font-size:1.25em;margin-bottom:16px;}
+        .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+        .form-group{display:flex;flex-direction:column;}
+        label{font-size:14px;font-weight:500;color:#374151;margin-bottom:6px;}
+        input[type=text],input[type=number]{padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;transition:all .3s;}
+        input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+        .evento-card{border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:20px;background:#fff;}
+        .evento-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+        .evento-header h3{color:#1f2937;font-size:1.1em;}
+        .gastos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px;}
+        .gastos-grid label{font-size:12px;color:#6b7280;}
+        .gastos-grid input{font-size:13px;padding:6px 10px;}
+        .resumen-box{background:#f9fafb;padding:14px;border-radius:8px;margin-top:14px;}
+        .resumen-item{display:flex;justify-content:space-between;padding:7px 12px;background:#fff;border-radius:4px;margin-bottom:5px;}
+        .resumen-item.total{border-top:2px solid #2563eb;padding-top:10px;margin-top:6px;font-weight:bold;background:#eff6ff;}
+        .summary-card{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;padding:24px;border-radius:12px;margin-bottom:20px;}
+        .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:16px;}
+        .summary-item{background:rgba(255,255,255,.2);padding:16px;border-radius:8px;}
+        .summary-item p{font-size:14px;opacity:.9;margin-bottom:6px;}
+        .summary-item h3{font-size:22px;font-weight:bold;}
+        .deficit{border:2px solid rgba(239,68,68,.3);}
+        /* Historial */
+        .historial-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+        .historial-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);transition:all .3s;}
+        .historial-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.15);}
+        .historial-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+        .historial-header-title h3{font-size:14px;color:#1f2937;margin-bottom:2px;}
+        .historial-header-title p{font-size:12px;color:#6b7280;}
+        .historial-info{font-size:14px;color:#6b7280;margin-bottom:6px;}
+        .historial-actions{display:flex;gap:8px;margin-top:14px;}
+        .historial-actions .btn{flex:1;justify-content:center;padding:8px 10px;font-size:13px;}
+        .btn-icon{padding:6px 10px;font-size:13px;line-height:1;}
+        /* Edición banner */
+        .edit-banner{background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+        .edit-banner span{font-size:14px;color:#92400e;font-weight:500;}
+        .edit-banner-actions{display:flex;gap:8px;flex-shrink:0;}
+        /* Misc */
+        .empty-state{text-align:center;padding:60px 20px;color:#9ca3af;}
+        .empty-state-icon{font-size:64px;margin-bottom:16px;}
+        .iva-nota{font-size:11px;color:#6b7280;margin-top:4px;font-style:italic;}
+        .hidden{display:none;}
+
+        /* REPORTE */
+        #informe-content{font-family:'Segoe UI',Arial,sans-serif;font-size:9.5px;color:#111;}
+        .rpt-wrap{background:#fff;padding:16px 20px;}
+        .rpt-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1f2937;padding-bottom:8px;margin-bottom:10px;}
+        .rpt-title{font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;}
+        .rpt-sub{font-size:9px;color:#6b7280;margin-top:2px;}
+        .rpt-meta{display:grid;grid-template-columns:repeat(4,auto);gap:4px 20px;text-align:right;}
+        .rpt-meta-item p:first-child{font-size:8px;color:#6b7280;text-transform:uppercase;}
+        .rpt-meta-item p:last-child{font-weight:bold;font-size:9px;}
+        .rpt-resumen{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
+        .rpt-res-item{border:1px solid #d1d5db;border-radius:4px;padding:6px 10px;text-align:center;}
+        .rpt-res-item .rlabel{font-size:8px;color:#6b7280;text-transform:uppercase;margin-bottom:2px;}
+        .rpt-res-item .rval{font-size:13px;font-weight:bold;}
+        .rpt-table{width:100%;border-collapse:collapse;margin-bottom:8px;}
+        .rpt-table th{background:#1f2937;color:#fff;padding:4px 6px;font-size:8px;text-transform:uppercase;font-weight:600;}
+        .rpt-table td{padding:3px 6px;border-bottom:1px solid #e5e7eb;font-size:8.5px;}
+        .rpt-table tr:nth-child(even) td{background:#f9fafb;}
+        .rpt-table .ev-header td{background:#374151;color:#fff;font-weight:bold;font-size:8.5px;padding:4px 6px;}
+        .rpt-table .ev-subtotal td{background:#eff6ff;font-weight:bold;font-size:8.5px;}
+        .rpt-table .grand-total td{background:#1f2937;color:#fff;font-weight:bold;font-size:9px;padding:5px 6px;}
+        .rpt-consolidado{margin-top:8px;border:1px solid #d1d5db;border-radius:4px;overflow:hidden;}
+        .rpt-consolidado-title{background:#374151;color:#fff;padding:4px 8px;font-size:8.5px;font-weight:bold;text-transform:uppercase;}
+        .rpt-consolidado-grid{display:grid;grid-template-columns:repeat(7,1fr);}
+        .rpt-con-item{padding:6px 4px;text-align:center;border-right:1px solid #e5e7eb;}
+        .rpt-con-item:last-child{border-right:none;}
+        .rpt-con-item .clabel{font-size:7.5px;color:#6b7280;font-weight:600;text-transform:uppercase;margin-bottom:2px;}
+        .rpt-con-item .cval{font-size:10px;font-weight:bold;}
+        .rpt-con-item .civa{font-size:7px;color:#6b7280;}
+        .rpt-firmas{display:grid;grid-template-columns:repeat(2,1fr);gap:30px;margin-top:14px;padding-top:10px;border-top:1px solid #d1d5db;}
+        .rpt-firma{text-align:center;}
+        .rpt-firma-line{border-top:1px solid #374151;margin-bottom:4px;margin-top:24px;}
+        .rpt-firma p{font-size:8px;color:#374151;}
+
+        @media print{
+            @page{margin:.8cm;size:letter portrait;}
+            body{background:#fff;padding:0;}
+            .no-print{display:none!important;}
+            .card{box-shadow:none;padding:0;margin:0;}
+            .container{max-width:100%;}
+            #informe-content{font-size:8.5px;}
+            .rpt-wrap{padding:0;}
+        }
+        @media(max-width:768px){
+            body{padding:10px;}
+            .form-grid,.gastos-grid,.summary-grid{grid-template-columns:1fr;}
+            h1{font-size:1.5em;}
+            .nav-buttons{flex-direction:column;}
+            .btn{width:100%;justify-content:center;}
+            .historial-grid{grid-template-columns:1fr;}
+            .rpt-meta{grid-template-columns:repeat(2,auto);text-align:left;}
+            .rpt-consolidado-grid{grid-template-columns:repeat(3,1fr);}
+            .edit-banner{flex-direction:column;align-items:flex-start;}
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header no-print">
-            <h1>Sistema de Gestión de Viáticos</h1>
-            <div class="nav-buttons">
-                <button class="btn btn-primary" onclick="mostrarVista('registro')">📝 Registro</button>
-                <button class="btn btn-secondary" onclick="mostrarVista('informe')">📄 Informe Actual</button>
-                <button class="btn btn-secondary" onclick="mostrarVista('historial')">
-                    📦 Historial (<span id="historial-count">0</span>)
-                </button>
-            </div>
-        </div>
-
-        <!-- Vista de Registro -->
-        <div id="vista-registro">
-            <div class="card">
-                <h2>Información General</h2>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Nombre del Líder</label>
-                        <input type="text" id="lider" placeholder="Ingrese nombre">
-                    </div>
-                    <div class="form-group">
-                        <label>Número de Semana</label>
-                        <input type="text" id="semana" placeholder="Ej: Semana 42">
-                    </div>
-                    <div class="form-group">
-                        <label>Número de Cuarto</label>
-                        <input type="text" id="cuarto" placeholder="Ej: 201">
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn btn-success" onclick="agregarEvento()" style="width: 100%; margin-bottom: 20px;">
-                ➕ Agregar Evento
-            </button>
-
-            <div id="eventos-container"></div>
-
-            <div id="resumen-semanal" class="hidden">
-                <div class="summary-card">
-                    <h2 style="color: white;">Resumen Semanal</h2>
-                    <div class="summary-grid">
-                        <div class="summary-item">
-                            <p>Total Viáticos Asignados</p>
-                            <h3 id="total-viaticos-asignados">$0.00</h3>
-                        </div>
-                        <div class="summary-item">
-                            <p>Total Gastado</p>
-                            <h3 id="total-gastado">$0.00</h3>
-                        </div>
-                        <div class="summary-item" id="diferencia-card">
-                            <p id="diferencia-label">Saldo</p>
-                            <h3 id="diferencia-total">$0.00</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-purple" onclick="guardarInforme()" style="width: 100%;">
-                    💾 Guardar Informe
-                </button>
-            </div>
-        </div>
-
-        <!-- Vista de Historial -->
-        <div id="vista-historial" class="hidden">
-            <h2 style="margin-bottom: 24px;">Historial de Informes</h2>
-            <div id="historial-container"></div>
-        </div>
-
-        <!-- Vista de Informe -->
-        <div id="vista-informe" class="hidden">
-            <div class="no-print" style="margin-bottom: 16px; text-align: right;">
-                <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Informe</button>
-            </div>
-            <div id="informe-content"></div>
+<div class="container">
+    <div class="no-print">
+        <h1>Sistema de Gestión de Viáticos</h1>
+        <div class="nav-buttons">
+            <button class="btn btn-primary" onclick="mostrarVista('registro')">📝 Registro</button>
+            <button class="btn btn-secondary" onclick="mostrarVista('informe')">📄 Informe Actual</button>
+            <button class="btn btn-secondary" onclick="mostrarVista('historial')">📦 Historial (<span id="historial-count">0</span>)</button>
         </div>
     </div>
 
-    <script>
-        const CATEGORIAS = ['HOTEL', 'ALIMENTOS', 'GASOLINA', 'PAPELERIA', 'RECARGA', 'UBER', 'PARQUEO'];
-        const IVA_RATE = 0.13;
-
-        let eventos = [];
-        let informesGuardados = [];
-        let informeSeleccionado = null;
-
-        // Cargar informes guardados del localStorage
-        try {
-            const guardados = localStorage.getItem('informesViaticos');
-            if (guardados) {
-                informesGuardados = JSON.parse(guardados);
-                // Filtrar informes válidos (que tengan eventos)
-                informesGuardados = informesGuardados.filter(inf => inf.eventos && inf.eventos.length > 0);
-                // Guardar de nuevo por si se filtraron algunos
-                localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
-            }
-        } catch (e) {
-            console.error('Error al cargar informes:', e);
-            informesGuardados = [];
-        }
-
-        actualizarContadorHistorial();
-
-        function mostrarVista(vista) {
-            document.getElementById('vista-registro').classList.add('hidden');
-            document.getElementById('vista-historial').classList.add('hidden');
-            document.getElementById('vista-informe').classList.add('hidden');
-
-            if (vista === 'registro') {
-                document.getElementById('vista-registro').classList.remove('hidden');
-            } else if (vista === 'historial') {
-                document.getElementById('vista-historial').classList.remove('hidden');
-                renderHistorial();
-            } else if (vista === 'informe') {
-                document.getElementById('vista-informe').classList.remove('hidden');
-                informeSeleccionado = null;
-                renderInforme();
-                
-                // Mostrar u ocultar botón de imprimir según si hay contenido
-                const botonImprimir = document.querySelector('#vista-informe .no-print');
-                if (eventos.length === 0 && !informeSeleccionado) {
-                    botonImprimir.style.display = 'none';
-                } else {
-                    botonImprimir.style.display = 'block';
-                }
-            }
-        }
-
-        function agregarEvento() {
-            const evento = {
-                id: Date.now(),
-                nombre: '',
-                vehiculos: '',
-                viaticosAsignados: 0,
-                gastos: {}
-            };
-            CATEGORIAS.forEach(cat => evento.gastos[cat] = 0);
-            eventos.push(evento);
-            renderEventos();
-        }
-
-        function eliminarEvento(id) {
-            if (confirm('¿Estás seguro de eliminar este evento?')) {
-                eventos = eventos.filter(e => e.id !== id);
-                renderEventos();
-            }
-        }
-
-        function actualizarEvento(id, campo, valor) {
-            const evento = eventos.find(e => e.id === id);
-            if (evento) {
-                evento[campo] = valor;
-                calcularTotales();
-            }
-        }
-
-        function actualizarGasto(id, categoria, valor) {
-            const evento = eventos.find(e => e.id === id);
-            if (evento) {
-                evento.gastos[categoria] = parseFloat(valor) || 0;
-                renderEventos();
-            }
-        }
-
-        function calcularTotalGastos(gastos) {
-            return Object.values(gastos).reduce((sum, val) => sum + val, 0);
-        }
-
-        function calcularIVA(gastos) {
-            const gastosConIVA = (gastos.GASOLINA || 0) + (gastos.HOTEL || 0);
-            return gastosConIVA * IVA_RATE;
-        }
-
-        function calcularTotalConIVA(gastos) {
-            return calcularTotalGastos(gastos) + calcularIVA(gastos);
-        }
-
-        function calcularTotales() {
-            const totalViaticos = eventos.reduce((sum, e) => sum + (parseFloat(e.viaticosAsignados) || 0), 0);
-            const totalGastado = eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0);
-            const diferencia = totalViaticos - totalGastado;
-
-            document.getElementById('total-viaticos-asignados').textContent = `$${totalViaticos.toFixed(2)}`;
-            document.getElementById('total-gastado').textContent = `$${totalGastado.toFixed(2)}`;
-            document.getElementById('diferencia-total').textContent = `$${Math.abs(diferencia).toFixed(2)}`;
-            document.getElementById('diferencia-label').textContent = diferencia >= 0 ? 'Saldo' : 'Déficit';
-            
-            const diferenciaCard = document.getElementById('diferencia-card');
-            if (diferencia < 0) {
-                diferenciaCard.classList.add('deficit');
-            } else {
-                diferenciaCard.classList.remove('deficit');
-            }
-        }
-
-        function renderEventos() {
-            const container = document.getElementById('eventos-container');
-            
-            if (eventos.length === 0) {
-                container.innerHTML = '';
-                document.getElementById('resumen-semanal').classList.add('hidden');
-                return;
-            }
-
-            document.getElementById('resumen-semanal').classList.remove('hidden');
-
-            container.innerHTML = eventos.map((evento, idx) => {
-                const totalGastos = calcularTotalGastos(evento.gastos);
-                const iva = calcularIVA(evento.gastos);
-                const totalConIVA = calcularTotalConIVA(evento.gastos);
-                const viaticos = parseFloat(evento.viaticosAsignados) || 0;
-                const diferencia = viaticos - totalConIVA;
-
-                return `
-                    <div class="evento-card">
-                        <div class="evento-header">
-                            <h3>${evento.nombre || 'Evento ' + (idx + 1)}</h3>
-                            <button class="btn btn-danger" onclick="eliminarEvento(${evento.id})">🗑️</button>
-                        </div>
-
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Nombre del Evento</label>
-                                <input type="text" value="${evento.nombre}" 
-                                    placeholder="Ingrese nombre del evento"
-                                    onchange="actualizarEvento(${evento.id}, 'nombre', this.value)">
-                            </div>
-                            <div class="form-group">
-                                <label>Vehículos Utilizados</label>
-                                <input type="text" value="${evento.vehiculos}" 
-                                    placeholder="Ej: Toyota Corolla ABC-123"
-                                    onchange="actualizarEvento(${evento.id}, 'vehiculos', this.value)">
-                            </div>
-                            <div class="form-group">
-                                <label>Viáticos Asignados ($)</label>
-                                <input type="number" step="0.01" value="${evento.viaticosAsignados}" 
-                                    onchange="actualizarEvento(${evento.id}, 'viaticosAsignados', this.value)">
-                            </div>
-                        </div>
-
-                        <div style="border-top: 1px solid #e5e7eb; margin-top: 16px; padding-top: 16px;">
-                            <h4 style="margin-bottom: 12px;">Gastos por Categoría</h4>
-                            <div class="gastos-grid">
-                                ${CATEGORIAS.map(cat => `
-                                    <div class="form-group">
-                                        <label>${cat}</label>
-                                        <input type="number" step="0.01" value="${evento.gastos[cat]}" 
-                                            onchange="actualizarGasto(${evento.id}, '${cat}', this.value)">
-                                    </div>
-                                `).join('')}
-                            </div>
-
-                            <div class="resumen-box">
-                                <div class="resumen-grid">
-                                    <div class="resumen-item">
-                                        <span style="color: #6b7280;">Subtotal:</span>
-                                        <strong>$${totalGastos.toFixed(2)}</strong>
-                                    </div>
-                                    <div class="resumen-item">
-                                        <span style="color: #6b7280;">IVA (13%):</span>
-                                        <strong>$${iva.toFixed(2)}</strong>
-                                    </div>
-                                    <div class="resumen-item">
-                                        <span style="color: #1f2937; font-weight: 600;">Total Gastado:</span>
-                                        <strong style="color: #2563eb;">$${totalConIVA.toFixed(2)}</strong>
-                                    </div>
-                                    <div class="resumen-item total">
-                                        <span>Viáticos Asignados:</span>
-                                        <strong>$${viaticos.toFixed(2)}</strong>
-                                    </div>
-                                    <div class="resumen-item" style="color: ${diferencia >= 0 ? '#16a34a' : '#dc2626'};">
-                                        <span style="font-weight: bold;">${diferencia >= 0 ? 'Saldo:' : 'Déficit:'}</span>
-                                        <strong>$${Math.abs(diferencia).toFixed(2)}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            calcularTotales();
-        }
-
-        function guardarInforme() {
-            // Validar que haya eventos
-            if (eventos.length === 0) {
-                alert('❌ Debes agregar al menos un evento antes de guardar el informe');
-                return;
-            }
-
-            // Validar que al menos un evento tenga gastos
-            const hayGastos = eventos.some(e => calcularTotalConIVA(e.gastos) > 0);
-            if (!hayGastos) {
-                alert('❌ Debes ingresar al menos un gasto en algún evento antes de guardar');
-                return;
-            }
-
-            // Validar información general
-            const lider = document.getElementById('lider').value.trim();
-            const semana = document.getElementById('semana').value.trim();
-            
-            if (!lider || !semana) {
-                alert('❌ Debes completar al menos el nombre del líder y el número de semana');
-                return;
-            }
-
-            const totalViaticos = eventos.reduce((sum, e) => sum + (parseFloat(e.viaticosAsignados) || 0), 0);
-            const totalGastado = eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0);
-
-            const informe = {
-                id: Date.now(),
-                fecha: new Date().toISOString(),
-                infoGeneral: {
-                    lider: lider,
-                    semana: semana,
-                    cuarto: document.getElementById('cuarto').value.trim()
-                },
-                eventos: JSON.parse(JSON.stringify(eventos)),
-                totalViaticosAsignados: totalViaticos,
-                totalGastado: totalGastado,
-                diferencia: totalViaticos - totalGastado
-            };
-
-            // Guardar en el array y localStorage
-            informesGuardados.unshift(informe);
-            
-            try {
-                localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
-                console.log('✅ Informe guardado:', informe);
-                console.log('📦 Total de informes:', informesGuardados.length);
-            } catch (e) {
-                alert('❌ Error al guardar el informe: ' + e.message);
-                return;
-            }
-            
-            actualizarContadorHistorial();
-            
-            // Limpiar todo para un nuevo informe
-            limpiarFormulario();
-            
-            // Mostrar mensaje y redirigir al historial
-            alert('✅ Informe guardado exitosamente. Total de informes: ' + informesGuardados.length);
-            
-            // Automáticamente mostrar el historial para que vea su informe guardado
-            mostrarVista('historial');
-        }
-
-        function limpiarFormulario() {
-            // Limpiar información general
-            document.getElementById('lider').value = '';
-            document.getElementById('semana').value = '';
-            document.getElementById('cuarto').value = '';
-            
-            // Limpiar eventos
-            eventos = [];
-            renderEventos();
-        }
-
-        function actualizarContadorHistorial() {
-            document.getElementById('historial-count').textContent = informesGuardados.length;
-        }
-
-        function eliminarInformeGuardado(id) {
-            if (confirm('¿Estás seguro de eliminar este informe?')) {
-                informesGuardados = informesGuardados.filter(i => i.id !== id);
-                localStorage.setItem('informesViaticos', JSON.stringify(informesGuardados));
-                actualizarContadorHistorial();
-                renderHistorial();
-            }
-        }
-
-        function verInformeGuardado(id) {
-            console.log('🔍 Buscando informe con id:', id);
-            console.log('📦 Informes disponibles:', informesGuardados.length);
-            
-            informeSeleccionado = informesGuardados.find(i => i.id === id);
-            
-            console.log('📄 Informe seleccionado:', informeSeleccionado);
-            
-            if (!informeSeleccionado) {
-                alert('❌ Error: No se pudo cargar el informe');
-                console.error('❌ No se encontró el informe con id:', id);
-                return;
-            }
-            
-            console.log('✅ Informe cargado con', informeSeleccionado.eventos.length, 'eventos');
-            
-            // Cambiar a vista de informe
-            document.getElementById('vista-registro').classList.add('hidden');
-            document.getElementById('vista-historial').classList.add('hidden');
-            document.getElementById('vista-informe').classList.remove('hidden');
-            
-            // Renderizar el informe guardado
-            renderInforme();
-            
-            // Asegurarse de que el botón de imprimir esté visible
-            const botonImprimir = document.querySelector('#vista-informe .no-print');
-            if (botonImprimir) {
-                botonImprimir.style.display = 'block';
-            }
-        }
-
-        function renderHistorial() {
-            const container = document.getElementById('historial-container');
-
-            if (informesGuardados.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📦</div>
-                        <p style="font-size: 18px; margin-bottom: 8px;">No hay informes guardados aún</p>
-                        <p>Crea y guarda tu primer informe desde la pestaña de Registro</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = `
-                <div class="historial-grid">
-                    ${informesGuardados.map(informe => `
-                        <div class="historial-card">
-                            <div class="historial-header">
-                                <div>
-                                    <h3>${informe.infoGeneral.semana || 'Sin semana'}</h3>
-                                    <p style="font-size: 13px; color: #6b7280;">
-                                        ${new Date(informe.fecha).toLocaleDateString('es-ES', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        })}
-                                    </p>
-                                </div>
-                                <button class="btn btn-danger" onclick="eliminarInformeGuardado(${informe.id})">✕</button>
-                            </div>
-                            <div style="border-top: 1px solid #e5e7eb; padding-top: 12px;">
-                                <p class="historial-info"><strong>Líder:</strong> ${informe.infoGeneral.lider || 'N/A'}</p>
-                                <p class="historial-info"><strong>Eventos:</strong> ${informe.eventos.length}</p>
-                                <p class="historial-info"><strong>Viáticos totales:</strong> $${informe.totalViaticosAsignados.toFixed(2)}</p>
-                                <p class="historial-info"><strong>Total gastado:</strong> $${informe.totalGastado.toFixed(2)}</p>
-                                <p class="historial-info" style="color: ${informe.diferencia >= 0 ? '#16a34a' : '#dc2626'}; font-weight: 600;">
-                                    <strong>${informe.diferencia >= 0 ? 'Saldo:' : 'Déficit:'}</strong> $${Math.abs(informe.diferencia).toFixed(2)}
-                                </p>
-                            </div>
-                            <button class="btn btn-primary" onclick="verInformeGuardado(${informe.id})" style="width: 100%; margin-top: 12px;">
-                                👁️ Ver Informe
-                            </button>
-                        </div>
-                    `).join('')}
+    <!-- Registro -->
+    <div id="vista-registro">
+        <div id="edit-banner" class="edit-banner hidden">
+            <span>✏️ Editando: <strong id="edit-banner-nombre"></strong></span>
+            <div class="edit-banner-actions">
+                <button class="btn btn-success btn-sm" onclick="guardarEdicion()">💾 Guardar cambios</button>
+                <button class="btn btn-secondary btn-sm" onclick="cancelarEdicion()">✕ Cancelar</button>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Información General</h2>
+            <div class="form-grid">
+                <div class="form-group"><label>Nombre del Líder</label><input type="text" id="lider" placeholder="Ingrese nombre"></div>
+                <div class="form-group"><label>Número de Semana</label><input type="text" id="semana" placeholder="Ej: 42"></div>
+                <div class="form-group"><label>Número de Cuarto</label><input type="text" id="cuarto" placeholder="Ej: 201"></div>
+            </div>
+        </div>
+        <button class="btn btn-success" onclick="agregarEvento()" style="width:100%;margin-bottom:20px;">➕ Agregar Evento</button>
+        <div id="eventos-container"></div>
+        <div id="resumen-semanal" class="hidden">
+            <div class="summary-card">
+                <h2 style="color:#fff;">Resumen Semanal</h2>
+                <div class="summary-grid">
+                    <div class="summary-item"><p>Total Viáticos Asignados</p><h3 id="total-viaticos-asignados">$0.00</h3></div>
+                    <div class="summary-item"><p>Total Gastado</p><h3 id="total-gastado">$0.00</h3></div>
+                    <div class="summary-item" id="diferencia-card"><p id="diferencia-label">Saldo</p><h3 id="diferencia-total">$0.00</h3></div>
                 </div>
-            `;
-        }
+            </div>
+            <div style="display:flex;gap:10px;">
+                <button class="btn btn-purple" onclick="guardarInforme()" style="flex:1;" id="btn-guardar-nuevo">💾 Guardar Informe</button>
+            </div>
+        </div>
+    </div>
 
-        function renderInforme() {
-            console.log('🖨️ Renderizando informe...');
-            console.log('📋 informeSeleccionado:', informeSeleccionado);
-            
-            let datos;
-            
-            if (informeSeleccionado) {
-                // Usar datos del informe guardado
-                datos = informeSeleccionado;
-                console.log('✅ Usando informe guardado con', datos.eventos.length, 'eventos');
-            } else {
-                // Usar datos actuales del formulario
-                datos = {
-                    infoGeneral: {
-                        lider: document.getElementById('lider').value,
-                        semana: document.getElementById('semana').value,
-                        cuarto: document.getElementById('cuarto').value
-                    },
-                    eventos: eventos,
-                    totalViaticosAsignados: eventos.reduce((sum, e) => sum + (parseFloat(e.viaticosAsignados) || 0), 0),
-                    totalGastado: eventos.reduce((sum, e) => sum + calcularTotalConIVA(e.gastos), 0),
-                    diferencia: 0
-                };
-                datos.diferencia = datos.totalViaticosAsignados - datos.totalGastado;
-                console.log('📝 Usando datos actuales del formulario con', datos.eventos.length, 'eventos');
-            }
+    <!-- Historial -->
+    <div id="vista-historial" class="hidden">
+        <h2 style="margin-bottom:24px;">Historial de Informes</h2>
+        <div id="historial-container"></div>
+    </div>
 
-            // Si no hay eventos para mostrar
-            if (!datos.eventos || datos.eventos.length === 0) {
-                console.log('⚠️ No hay eventos para mostrar');
-                document.getElementById('informe-content').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📄</div>
-                        <p style="font-size: 18px; margin-bottom: 8px;">No hay eventos para generar informe</p>
-                        <p>Agrega eventos en la pestaña de Registro para poder generar un informe</p>
-                    </div>
-                `;
-                return;
-            }
+    <!-- Informe -->
+    <div id="vista-informe" class="hidden">
+        <div class="no-print" style="margin-bottom:16px;text-align:right;">
+            <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+        </div>
+        <div id="informe-content"></div>
+    </div>
+</div>
 
-            console.log('✅ Generando HTML del informe...');
+<script>
+const CATEGORIAS=['HOTEL','ALIMENTOS','GASOLINA','PAPELERIA','RECARGA','UBER','PARQUEO'];
+const CATS_IVA=['GASOLINA','HOTEL'];
+const IVA=0.13;
 
-            const consolidado = {};
-            CATEGORIAS.forEach(cat => {
-                const total = datos.eventos.reduce((sum, e) => sum + (e.gastos[cat] || 0), 0);
-                const tieneIVA = cat === 'GASOLINA' || cat === 'HOTEL';
-                const iva = tieneIVA ? total * IVA_RATE : 0;
-                consolidado[cat] = { total, iva, conIVA: total + iva };
-            });
+let eventos=[], informesGuardados=[], informeSeleccionado=null;
+let modoEdicion=false, idInformeEditando=null;
 
-            document.getElementById('informe-content').innerHTML = `
-                <div class="card">
-                    <div class="informe-header">
-                        <h1>INFORME DE VIÁTICOS SEMANAL</h1>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <p>LÍDER RESPONSABLE</p>
-                                <p>${datos.infoGeneral.lider || 'N/A'}</p>
-                            </div>
-                            <div class="info-item">
-                                <p>SEMANA</p>
-                                <p>${datos.infoGeneral.semana || 'N/A'}</p>
-                            </div>
-                            <div class="info-item">
-                                <p>NO. CUARTO</p>
-                                <p>${datos.infoGeneral.cuarto || 'N/A'}</p>
-                            </div>
-                            <div class="info-item">
-                                <p>FECHA</p>
-                                <p>${new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
-                            </div>
-                        </div>
-                    </div>
+informesGuardados=[];
+actualizarContadorHistorial();
 
-                    <div class="resumen-ejecutivo">
-                        <h2>Resumen General</h2>
-                        <div class="resumen-totales">
-                            <div class="resumen-totales-item">
-                                <p>Viáticos Asignados</p>
-                                <p style="color: #1f2937;">$${datos.totalViaticosAsignados.toFixed(2)}</p>
-                            </div>
-                            <div class="resumen-totales-item">
-                                <p>Total Gastado</p>
-                                <p style="color: #2563eb;">$${datos.totalGastado.toFixed(2)}</p>
-                            </div>
-                            <div class="resumen-totales-item" style="${datos.diferencia < 0 ? 'border: 2px solid #dc2626;' : ''}">
-                                <p>${datos.diferencia >= 0 ? 'Saldo' : 'Sobregiro'}</p>
-                                <p style="color: ${datos.diferencia >= 0 ? '#16a34a' : '#dc2626'};">$${Math.abs(datos.diferencia).toFixed(2)}</p>
-                            </div>
-                        </div>
-                    </div>
+function extraerIVA(m){const base=m/(1+IVA);return{base,iva:m-base};}
+function calcularTotal(g){return Object.values(g).reduce((s,v)=>s+v,0);}
+function calcularIVADesglosado(g){return CATS_IVA.reduce((s,c)=>s+(g[c]?extraerIVA(g[c]).iva:0),0);}
+function nombreInforme(i){return `Liquidación Semana ${i.semana||'?'} Cuarto ${i.cuarto||'?'}`;}
 
-                    ${datos.eventos.map(evento => {
-                        const totalEvento = calcularTotalConIVA(evento.gastos);
-                        const viaticosEvento = parseFloat(evento.viaticosAsignados) || 0;
-                        const diferenciaEvento = viaticosEvento - totalEvento;
+function mostrarVista(v){
+    ['registro','historial','informe'].forEach(x=>document.getElementById('vista-'+x).classList.add('hidden'));
+    document.getElementById('vista-'+v).classList.remove('hidden');
+    if(v==='historial') renderHistorial();
+    if(v==='informe'){
+        informeSeleccionado=null; renderInforme();
+        document.querySelector('#vista-informe .no-print').style.display=eventos.length===0?'none':'block';
+    }
+}
 
-                        return `
-                            <div class="evento-informe">
-                                <div class="evento-informe-header">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                                        <div>
-                                            <h3>${evento.nombre || 'Evento ' + (datos.eventos.indexOf(evento) + 1)}</h3>
-                                            ${evento.vehiculos ? `<p>🚗 ${evento.vehiculos}</p>` : ''}
-                                        </div>
-                                        <div class="evento-stats">
-                                            <span>Viáticos: ${viaticosEvento.toFixed(2)}</span>
-                                            <span>|</span>
-                                            <span>Gastado: ${totalEvento.toFixed(2)}</span>
-                                            <span>|</span>
-                                            <span style="color: ${diferenciaEvento >= 0 ? '#86efac' : '#fca5a5'};">
-                                                ${diferenciaEvento >= 0 ? 'Saldo:' : 'Déficit:'} ${Math.abs(diferenciaEvento).toFixed(2)}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>CATEGORÍA</th>
-                                            <th style="text-align: right;">MONTO BASE</th>
-                                            <th style="text-align: right;">IVA 13%</th>
-                                            <th style="text-align: right;">TOTAL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${CATEGORIAS.map(cat => {
-                                            const monto = evento.gastos[cat] || 0;
-                                            if (monto === 0) return '';
-                                            const tieneIVA = cat === 'GASOLINA' || cat === 'HOTEL';
-                                            const iva = tieneIVA ? monto * IVA_RATE : 0;
-                                            return `
-                                                <tr>
-                                                    <td><strong>${cat}</strong></td>
-                                                    <td style="text-align: right;">$${monto.toFixed(2)}</td>
-                                                    <td style="text-align: right;">${tieneIVA ? '$' + iva.toFixed(2) : '-'}</td>
-                                                    <td style="text-align: right;"><strong>$${(monto + iva).toFixed(2)}</strong></td>
-                                                </tr>
-                                            `;
-                                        }).join('')}
-                                        <tr style="background-color: #1f2937; color: white; font-weight: bold;">
-                                            <td colspan="3">TOTAL DEL EVENTO</td>
-                                            <td style="text-align: right;">$${totalEvento.toFixed(2)}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        `;
-                    }).join('')}
+/* ── Edición de informe del historial ── */
+function editarInforme(id){
+    const inf=informesGuardados.find(i=>i.id===id);
+    if(!inf){alert('❌ No se encontró el informe');return;}
+    // Cargar datos en el formulario
+    document.getElementById('lider').value=inf.infoGeneral.lider||'';
+    document.getElementById('semana').value=inf.infoGeneral.semana||'';
+    document.getElementById('cuarto').value=inf.infoGeneral.cuarto||'';
+    eventos=JSON.parse(JSON.stringify(inf.eventos));
+    modoEdicion=true;
+    idInformeEditando=id;
+    // Mostrar banner
+    document.getElementById('edit-banner').classList.remove('hidden');
+    document.getElementById('edit-banner-nombre').textContent=nombreInforme(inf.infoGeneral);
+    renderEventos();
+    mostrarVista('registro');
+}
 
-                    <div class="consolidado-section">
-                        <h2>Consolidado por Categoría</h2>
-                        <div class="consolidado-grid">
-                            ${CATEGORIAS.map(cat => {
-                                if (consolidado[cat].total === 0) return '';
-                                return `
-                                    <div class="consolidado-item">
-                                        <p>${cat}</p>
-                                        <p>$${consolidado[cat].conIVA.toFixed(2)}</p>
-                                        ${consolidado[cat].iva > 0 ? `<span>IVA: $${consolidado[cat].iva.toFixed(2)}</span>` : ''}
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
+function guardarEdicion(){
+    if(eventos.length===0){alert('❌ Agrega al menos un evento');return;}
+    if(!eventos.some(e=>calcularTotal(e.gastos)>0)){alert('❌ Ingresa al menos un gasto');return;}
+    const lider=document.getElementById('lider').value.trim(),semana=document.getElementById('semana').value.trim();
+    if(!lider||!semana){alert('❌ Completa el nombre del líder y la semana');return;}
+    const tv=eventos.reduce((s,e)=>s+(parseFloat(e.viaticosAsignados)||0),0);
+    const tg=eventos.reduce((s,e)=>s+calcularTotal(e.gastos),0);
+    const idx=informesGuardados.findIndex(i=>i.id===idInformeEditando);
+    if(idx===-1){alert('❌ Error: informe no encontrado');return;}
+    informesGuardados[idx]={
+        ...informesGuardados[idx],
+        infoGeneral:{lider,semana,cuarto:document.getElementById('cuarto').value.trim()},
+        eventos:JSON.parse(JSON.stringify(eventos)),
+        totalViaticosAsignados:tv,totalGastado:tg,diferencia:tv-tg
+    };
+    cancelarEdicion();
+    actualizarContadorHistorial();
+    alert('✅ Liquidación actualizada correctamente');
+    mostrarVista('historial');
+}
+
+function cancelarEdicion(){
+    modoEdicion=false; idInformeEditando=null;
+    document.getElementById('edit-banner').classList.add('hidden');
+    limpiarFormulario();
+}
+
+/* ── Eventos ── */
+function agregarEvento(){
+    const ev={id:Date.now(),nombre:'',vehiculos:'',viaticosAsignados:0,gastos:{}};
+    CATEGORIAS.forEach(c=>ev.gastos[c]=0); eventos.push(ev); renderEventos();
+}
+function eliminarEvento(id){if(confirm('¿Eliminar evento?')){eventos=eventos.filter(e=>e.id!==id);renderEventos();}}
+function actualizarEvento(id,campo,valor){const ev=eventos.find(e=>e.id===id);if(ev){ev[campo]=valor;calcularTotales();}}
+function actualizarGasto(id,cat,valor){const ev=eventos.find(e=>e.id===id);if(ev){ev.gastos[cat]=parseFloat(valor)||0;renderEventos();}}
+
+function calcularTotales(){
+    const tv=eventos.reduce((s,e)=>s+(parseFloat(e.viaticosAsignados)||0),0);
+    const tg=eventos.reduce((s,e)=>s+calcularTotal(e.gastos),0);
+    const df=tv-tg;
+    document.getElementById('total-viaticos-asignados').textContent='$'+tv.toFixed(2);
+    document.getElementById('total-gastado').textContent='$'+tg.toFixed(2);
+    document.getElementById('diferencia-total').textContent='$'+Math.abs(df).toFixed(2);
+    document.getElementById('diferencia-label').textContent=df>=0?'Saldo':'Déficit';
+    document.getElementById('diferencia-card').classList.toggle('deficit',df<0);
+}
+
+function renderEventos(){
+    const cont=document.getElementById('eventos-container');
+    if(eventos.length===0){cont.innerHTML='';document.getElementById('resumen-semanal').classList.add('hidden');return;}
+    document.getElementById('resumen-semanal').classList.remove('hidden');
+    cont.innerHTML=eventos.map((ev,idx)=>{
+        const tg=calcularTotal(ev.gastos),iva=calcularIVADesglosado(ev.gastos),vi=parseFloat(ev.viaticosAsignados)||0,df=vi-tg;
+        return `<div class="evento-card">
+            <div class="evento-header">
+                <h3>${ev.nombre||'Evento '+(idx+1)}</h3>
+                <button class="btn btn-danger btn-icon" onclick="eliminarEvento(${ev.id})" title="Eliminar evento">🗑</button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group"><label>Nombre del Evento</label>
+                    <input type="text" value="${ev.nombre}" placeholder="Nombre del evento" onchange="actualizarEvento(${ev.id},'nombre',this.value)"></div>
+                <div class="form-group"><label>Vehículos Utilizados</label>
+                    <input type="text" value="${ev.vehiculos}" placeholder="Ej: Toyota Corolla ABC-123" onchange="actualizarEvento(${ev.id},'vehiculos',this.value)"></div>
+                <div class="form-group"><label>Viáticos Asignados ($)</label>
+                    <input type="number" step="0.01" value="${ev.viaticosAsignados}" onchange="actualizarEvento(${ev.id},'viaticosAsignados',this.value)"></div>
+            </div>
+            <div style="border-top:1px solid #e5e7eb;margin-top:14px;padding-top:14px;">
+                <h4 style="margin-bottom:3px;">Gastos por Categoría</h4>
+                <p class="iva-nota">* Hotel y Gasolina: ingrese monto total (IVA ya incluido)</p>
+                <div class="gastos-grid">
+                    ${CATEGORIAS.map(cat=>`<div class="form-group"><label>${cat}${CATS_IVA.includes(cat)?' *':''}</label>
+                        <input type="number" step="0.01" value="${ev.gastos[cat]}" onchange="actualizarGasto(${ev.id},'${cat}',this.value)"></div>`).join('')}
                 </div>
-            `;
-        }
+                <div class="resumen-box">
+                    ${iva>0?`<div class="resumen-item"><span style="color:#6b7280;">IVA incluido (Hotel/Gasolina):</span><strong>$${iva.toFixed(2)}</strong></div>`:''}
+                    <div class="resumen-item"><span style="color:#1f2937;font-weight:600;">Total Gastado:</span><strong style="color:#2563eb;">$${tg.toFixed(2)}</strong></div>
+                    <div class="resumen-item total"><span>Viáticos Asignados:</span><strong>$${vi.toFixed(2)}</strong></div>
+                    <div class="resumen-item" style="color:${df>=0?'#16a34a':'#dc2626'};"><span style="font-weight:bold;">${df>=0?'Saldo:':'Déficit:'}</span><strong>$${Math.abs(df).toFixed(2)}</strong></div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+    calcularTotales();
+}
 
-        mostrarVista('registro');
-    </script>
+/* ── Guardar nuevo ── */
+function guardarInforme(){
+    if(modoEdicion){guardarEdicion();return;}
+    if(eventos.length===0){alert('❌ Agrega al menos un evento');return;}
+    if(!eventos.some(e=>calcularTotal(e.gastos)>0)){alert('❌ Ingresa al menos un gasto');return;}
+    const lider=document.getElementById('lider').value.trim(),semana=document.getElementById('semana').value.trim();
+    if(!lider||!semana){alert('❌ Completa el nombre del líder y la semana');return;}
+    const tv=eventos.reduce((s,e)=>s+(parseFloat(e.viaticosAsignados)||0),0);
+    const tg=eventos.reduce((s,e)=>s+calcularTotal(e.gastos),0);
+    const inf={id:Date.now(),fecha:new Date().toISOString(),
+        infoGeneral:{lider,semana,cuarto:document.getElementById('cuarto').value.trim()},
+        eventos:JSON.parse(JSON.stringify(eventos)),
+        totalViaticosAsignados:tv,totalGastado:tg,diferencia:tv-tg};
+    informesGuardados.unshift(inf);
+    actualizarContadorHistorial(); limpiarFormulario();
+    alert('✅ Informe guardado. Total: '+informesGuardados.length);
+    mostrarVista('historial');
+}
+
+function limpiarFormulario(){
+    ['lider','semana','cuarto'].forEach(id=>document.getElementById(id).value='');
+    eventos=[]; renderEventos();
+}
+function actualizarContadorHistorial(){document.getElementById('historial-count').textContent=informesGuardados.length;}
+
+/* ── Historial ── */
+function eliminarInformeGuardado(id){
+    if(confirm('¿Eliminar este informe permanentemente?')){
+        informesGuardados=informesGuardados.filter(i=>i.id!==id);
+        actualizarContadorHistorial(); renderHistorial();
+    }
+}
+function verInformeGuardado(id){
+    informeSeleccionado=informesGuardados.find(i=>i.id===id);
+    if(!informeSeleccionado){alert('❌ No se pudo cargar');return;}
+    ['registro','historial'].forEach(x=>document.getElementById('vista-'+x).classList.add('hidden'));
+    document.getElementById('vista-informe').classList.remove('hidden');
+    renderInforme();
+    document.querySelector('#vista-informe .no-print').style.display='block';
+}
+
+function renderHistorial(){
+    const cont=document.getElementById('historial-container');
+    if(informesGuardados.length===0){
+        cont.innerHTML=`<div class="empty-state"><div class="empty-state-icon">📦</div>
+            <p style="font-size:18px;margin-bottom:8px;">No hay informes guardados</p>
+            <p>Crea tu primer informe en la pestaña Registro</p></div>`;
+        return;
+    }
+    cont.innerHTML=`<div class="historial-grid">${informesGuardados.map(inf=>`
+        <div class="historial-card">
+            <div class="historial-header">
+                <div class="historial-header-title">
+                    <h3>${nombreInforme(inf.infoGeneral)}</h3>
+                    <p>${new Date(inf.fecha).toLocaleDateString('es-ES',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</p>
+                </div>
+                <button class="btn btn-danger btn-icon" onclick="eliminarInformeGuardado(${inf.id})" title="Eliminar">✕</button>
+            </div>
+            <div style="border-top:1px solid #e5e7eb;padding-top:12px;">
+                <p class="historial-info"><strong>Líder:</strong> ${inf.infoGeneral.lider||'N/A'}</p>
+                <p class="historial-info"><strong>Eventos:</strong> ${inf.eventos.length}</p>
+                <p class="historial-info"><strong>Viáticos:</strong> $${inf.totalViaticosAsignados.toFixed(2)}</p>
+                <p class="historial-info"><strong>Gastado:</strong> $${inf.totalGastado.toFixed(2)}</p>
+                <p class="historial-info" style="color:${inf.diferencia>=0?'#16a34a':'#dc2626'};font-weight:600;">
+                    <strong>${inf.diferencia>=0?'Saldo:':'Déficit:'}</strong> $${Math.abs(inf.diferencia).toFixed(2)}
+                </p>
+            </div>
+            <div class="historial-actions">
+                <button class="btn btn-primary" onclick="verInformeGuardado(${inf.id})">👁️ Ver</button>
+                <button class="btn btn-warning" onclick="editarInforme(${inf.id})">✏️ Editar</button>
+            </div>
+        </div>`).join('')}</div>`;
+}
+
+/* ── Informe imprimible ── */
+function renderInforme(){
+    let d=informeSeleccionado||{
+        infoGeneral:{lider:document.getElementById('lider').value,semana:document.getElementById('semana').value,cuarto:document.getElementById('cuarto').value},
+        eventos,totalViaticosAsignados:eventos.reduce((s,e)=>s+(parseFloat(e.viaticosAsignados)||0),0),
+        totalGastado:eventos.reduce((s,e)=>s+calcularTotal(e.gastos),0),diferencia:0
+    };
+    if(!informeSeleccionado) d.diferencia=d.totalViaticosAsignados-d.totalGastado;
+    if(!d.eventos||d.eventos.length===0){
+        document.getElementById('informe-content').innerHTML=`<div class="empty-state"><div class="empty-state-icon">📄</div>
+            <p style="font-size:18px;margin-bottom:8px;">No hay eventos para generar informe</p>
+            <p>Agrega eventos en la pestaña Registro</p></div>`;
+        return;
+    }
+    const con={};
+    CATEGORIAS.forEach(cat=>{
+        const tot=d.eventos.reduce((s,e)=>s+(e.gastos[cat]||0),0);
+        const{base,iva}=CATS_IVA.includes(cat)?extraerIVA(tot):{base:tot,iva:0};
+        con[cat]={tot,base,iva};
+    });
+    let filas='',totalGeneral=0,totalViaticosTodos=0;
+    d.eventos.forEach((ev,idx)=>{
+        const vi=parseFloat(ev.viaticosAsignados)||0,totalEv=calcularTotal(ev.gastos),df=vi-totalEv;
+        totalGeneral+=totalEv; totalViaticosTodos+=vi;
+        const cats=CATEGORIAS.filter(c=>(ev.gastos[c]||0)>0);
+        filas+=`<tr class="ev-header"><td colspan="5">${ev.nombre||'Evento '+(idx+1)}${ev.vehiculos?' — 🚗 '+ev.vehiculos:''}</td><td style="text-align:right;">Viáticos: $${vi.toFixed(2)}</td></tr>`;
+        cats.forEach(cat=>{
+            const m=ev.gastos[cat],h=CATS_IVA.includes(cat);
+            const{base,iva}=h?extraerIVA(m):{base:m,iva:0};
+            filas+=`<tr><td style="padding-left:14px;">${cat}</td><td style="text-align:right;">${h?'$'+base.toFixed(2):'-'}</td><td style="text-align:right;">${h?'$'+iva.toFixed(2):'-'}</td><td style="text-align:right;font-weight:bold;">$${m.toFixed(2)}</td><td></td><td></td></tr>`;
+        });
+        filas+=`<tr class="ev-subtotal"><td colspan="3" style="text-align:right;">Subtotal evento:</td><td style="text-align:right;">$${totalEv.toFixed(2)}</td><td colspan="2" style="text-align:right;color:${df>=0?'#16a34a':'#dc2626'};">${df>=0?'Saldo:':'Déficit:'} $${Math.abs(df).toFixed(2)}</td></tr>`;
+    });
+    const dfTotal=totalViaticosTodos-totalGeneral;
+    document.getElementById('informe-content').innerHTML=`
+    <div class="rpt-wrap">
+        <div class="rpt-header">
+            <div><div class="rpt-title">Liquidación de Viáticos Semanal</div><div class="rpt-sub">${nombreInforme(d.infoGeneral)}</div></div>
+            <div class="rpt-meta">
+                <div class="rpt-meta-item"><p>Líder</p><p>${d.infoGeneral.lider||'N/A'}</p></div>
+                <div class="rpt-meta-item"><p>Semana</p><p>${d.infoGeneral.semana||'N/A'}</p></div>
+                <div class="rpt-meta-item"><p>Cuarto</p><p>${d.infoGeneral.cuarto||'N/A'}</p></div>
+                <div class="rpt-meta-item"><p>Fecha</p><p>${new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'})}</p></div>
+            </div>
+        </div>
+        <div class="rpt-resumen">
+            <div class="rpt-res-item"><div class="rlabel">Viáticos Asignados</div><div class="rval">$${d.totalViaticosAsignados.toFixed(2)}</div></div>
+            <div class="rpt-res-item"><div class="rlabel">Total Gastado</div><div class="rval" style="color:#2563eb;">$${d.totalGastado.toFixed(2)}</div></div>
+            <div class="rpt-res-item" style="${d.diferencia<0?'border-color:#dc2626;':''}"><div class="rlabel">${d.diferencia>=0?'Saldo':'Sobregiro'}</div><div class="rval" style="color:${d.diferencia>=0?'#16a34a':'#dc2626'};">$${Math.abs(d.diferencia).toFixed(2)}</div></div>
+        </div>
+        <table class="rpt-table">
+            <thead><tr><th style="width:28%;">Categoría / Evento</th><th style="text-align:right;width:14%;">Base (sin IVA)</th><th style="text-align:right;width:14%;">IVA 13% (incl.)</th><th style="text-align:right;width:14%;">Total</th><th style="width:15%;"></th><th style="text-align:right;width:15%;"></th></tr></thead>
+            <tbody>${filas}<tr class="grand-total"><td colspan="3">TOTAL GENERAL</td><td style="text-align:right;">$${totalGeneral.toFixed(2)}</td><td colspan="2" style="text-align:right;">${dfTotal>=0?'Saldo:':'Déficit:'} $${Math.abs(dfTotal).toFixed(2)}</td></tr></tbody>
+        </table>
+        <div class="rpt-consolidado">
+            <div class="rpt-consolidado-title">Consolidado por Categoría</div>
+            <div class="rpt-consolidado-grid">
+                ${CATEGORIAS.map(cat=>con[cat].tot===0?'':`<div class="rpt-con-item"><div class="clabel">${cat}</div><div class="cval">$${con[cat].tot.toFixed(2)}</div>${con[cat].iva>0?`<div class="civa">IVA: $${con[cat].iva.toFixed(2)}</div>`:''}</div>`).join('')}
+            </div>
+        </div>
+        <div class="rpt-firmas">
+            <div class="rpt-firma"><div class="rpt-firma-line"></div><p><strong>${d.infoGeneral.lider||'Líder Responsable'}</strong></p><p>Elaborado por</p></div>
+            <div class="rpt-firma"><div class="rpt-firma-line"></div><p><strong>Autorizado por</strong></p><p>Firma y sello</p></div>
+        </div>
+    </div>`;
+}
+
+mostrarVista('registro');
+</script>
 </body>
 </html>
