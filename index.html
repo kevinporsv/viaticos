@@ -62,7 +62,7 @@
         .hidden{display:none;}
 
         /* REPORTE */
-        #informe-content{font-family:'Segoe UI',Arial,sans-serif;font-size:9.5px;color:#111;}
+        #informe-content{font-family:'Segoe UI',Arial,sans-serif;font-size:11px;color:#111;}
         .rpt-wrap{background:#fff;padding:16px 20px;}
         .rpt-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1f2937;padding-bottom:8px;margin-bottom:10px;}
         .rpt-title{font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;}
@@ -100,7 +100,7 @@
             .no-print{display:none!important;}
             .card{box-shadow:none;padding:0;margin:0;}
             .container{max-width:100%;}
-            #informe-content{font-size:8.5px;}
+            #informe-content{font-size:10px;}
             .rpt-wrap{padding:0;}
         }
         @media(max-width:768px){
@@ -170,7 +170,7 @@
     <!-- Informe -->
     <div id="vista-informe" class="hidden">
         <div class="no-print" style="margin-bottom:16px;text-align:right;">
-            <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+            <button class="btn btn-primary" onclick="imprimirInforme()">🖨️ Imprimir / Guardar PDF</button>
         </div>
         <div id="informe-content"></div>
     </div>
@@ -217,7 +217,21 @@ function editarInforme(id){
     document.getElementById('edit-banner').classList.remove('hidden');
     document.getElementById('edit-banner-nombre').textContent=nombreInforme(inf.infoGeneral);
     renderEventos();
-    mostrarVista('registro');
+    function imprimirInforme(){
+    let d=informeSeleccionado||{
+        infoGeneral:{lider:document.getElementById('lider').value,semana:document.getElementById('semana').value,cuarto:document.getElementById('cuarto').value}
+    };
+    const lider=(d.infoGeneral.lider||'Lider').trim();
+    const semana=(d.infoGeneral.semana||'?').trim();
+    const cuarto=(d.infoGeneral.cuarto||'?').trim();
+    const titulo=`${lider} - Liquidación Semana ${semana} Cuarto ${cuarto}`;
+    const prevTitle=document.title;
+    document.title=titulo;
+    window.print();
+    document.title=prevTitle;
+}
+
+mostrarVista('registro');
 }
 
 function guardarEdicion(){
@@ -251,6 +265,11 @@ function cancelarEdicion(){
 function agregarEvento(){
     const ev={id:Date.now(),nombre:'',vehiculos:'',viaticosAsignados:0,gastos:{}};
     CATEGORIAS.forEach(c=>ev.gastos[c]=0); eventos.push(ev); renderEventos();
+    // Scroll al nuevo evento (último de la lista)
+    setTimeout(()=>{
+        const tarjetas=document.querySelectorAll('.evento-card');
+        if(tarjetas.length) tarjetas[tarjetas.length-1].scrollIntoView({behavior:'smooth',block:'start'});
+    },50);
 }
 function eliminarEvento(id){if(confirm('¿Eliminar evento?')){eventos=eventos.filter(e=>e.id!==id);renderEventos();}}
 function actualizarEvento(id,campo,valor){const ev=eventos.find(e=>e.id===id);if(ev){ev[campo]=valor;calcularTotales();}}
@@ -433,10 +452,10 @@ function renderInforme(){
             <thead><tr><th style="width:28%;">Categoría / Evento</th><th style="text-align:right;width:14%;">Base (sin IVA)</th><th style="text-align:right;width:14%;">IVA 13% (incl.)</th><th style="text-align:right;width:14%;">Total</th><th style="width:15%;"></th><th style="text-align:right;width:15%;"></th></tr></thead>
             <tbody>${filas}<tr class="grand-total"><td colspan="3">TOTAL GENERAL</td><td style="text-align:right;">$${totalGeneral.toFixed(2)}</td><td colspan="2" style="text-align:right;">${dfTotal>=0?'Saldo:':'Déficit:'} $${Math.abs(dfTotal).toFixed(2)}</td></tr></tbody>
         </table>
-        <div class="rpt-consolidado">
+        <div class="rpt-consolidado no-print">
             <div class="rpt-consolidado-title">Consolidado por Categoría</div>
             <div class="rpt-consolidado-grid">
-                ${CATEGORIAS.map(cat=>con[cat].tot===0?'':`<div class="rpt-con-item"><div class="clabel">${cat}</div><div class="cval">$${con[cat].tot.toFixed(2)}</div>${con[cat].iva>0?`<div class="civa">IVA: $${con[cat].iva.toFixed(2)}</div>`:''}</div>`).join('')}
+                ${CATEGORIAS.map(cat=>con[cat].tot===0?'':`<div class="rpt-con-item"><div class="clabel">${cat}</div><div class="cval">${con[cat].tot.toFixed(2)}</div>${con[cat].iva>0?`<div class="civa">IVA: ${con[cat].iva.toFixed(2)}</div>`:''}</div>`).join('')}
             </div>
         </div>
         <div class="rpt-firmas">
