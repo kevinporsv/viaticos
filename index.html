@@ -61,35 +61,35 @@
         /* REPORTE */
         #informe-content{font-family:'Segoe UI',Arial,sans-serif;font-size:11px;color:#111;}
         .rpt-wrap{background:#fff;padding:16px 20px;}
-        .rpt-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1f2937;padding-bottom:8px;margin-bottom:10px;}
-        .rpt-title{font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;}
-        .rpt-sub{font-size:9px;color:#6b7280;margin-top:2px;}
+        .rpt-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;padding-bottom:8px;margin-bottom:10px;}
+        .rpt-title{font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;color:#111;}
+        .rpt-sub{font-size:9px;color:#444;margin-top:2px;}
         .rpt-meta{display:grid;grid-template-columns:repeat(4,auto);gap:4px 20px;text-align:right;}
-        .rpt-meta-item p:first-child{font-size:8px;color:#6b7280;text-transform:uppercase;}
-        .rpt-meta-item p:last-child{font-weight:bold;font-size:9px;}
+        .rpt-meta-item p:first-child{font-size:8px;color:#555;text-transform:uppercase;}
+        .rpt-meta-item p:last-child{font-weight:bold;font-size:9px;color:#111;}
         .rpt-resumen{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
-        .rpt-res-item{border:1px solid #d1d5db;border-radius:4px;padding:6px 10px;text-align:center;}
-        .rpt-res-item .rlabel{font-size:8px;color:#6b7280;text-transform:uppercase;margin-bottom:2px;}
-        .rpt-res-item .rval{font-size:13px;font-weight:bold;}
+        .rpt-res-item{border:1.5px solid #888;border-radius:4px;padding:6px 10px;text-align:center;background:#f0f0f0;}
+        .rpt-res-item .rlabel{font-size:8px;color:#444;text-transform:uppercase;margin-bottom:2px;}
+        .rpt-res-item .rval{font-size:13px;font-weight:bold;color:#111;}
         .rpt-table{width:100%;border-collapse:collapse;margin-bottom:8px;}
-        .rpt-table th{background:#1f2937;color:#fff;padding:4px 6px;font-size:8px;text-transform:uppercase;font-weight:600;}
-        .rpt-table td{padding:3px 6px;border-bottom:1px solid #e5e7eb;font-size:9px;}
-        .rpt-table tr.fila-par td{background:#f9fafb;}
-        .rpt-table .ev-header td{background:#374151;color:#fff;font-weight:bold;font-size:9px;padding:4px 6px;}
-        .rpt-table .ev-subtotal td{background:#eff6ff;font-weight:bold;font-size:9px;}
-        .rpt-table .grand-total td{background:#1f2937;color:#fff;font-weight:bold;font-size:10px;padding:5px 6px;}
-        .rpt-consolidado{margin-top:8px;border:1px solid #d1d5db;border-radius:4px;overflow:hidden;}
-        .rpt-consolidado-title{background:#374151;color:#fff;padding:4px 8px;font-size:9px;font-weight:bold;text-transform:uppercase;}
+        .rpt-table th{background:#222;color:#fff;padding:4px 6px;font-size:8px;text-transform:uppercase;font-weight:700;}
+        .rpt-table td{padding:3px 6px;border-bottom:1px solid #bbb;font-size:9px;color:#111;}
+        .rpt-table tr.fila-par td{background:#ebebeb;}
+        .rpt-table .ev-header td{background:#555;color:#fff;font-weight:bold;font-size:9px;padding:4px 6px;}
+        .rpt-table .ev-subtotal td{background:#d0d0d0;font-weight:bold;font-size:9px;color:#111;border-top:1px solid #888;}
+        .rpt-table .grand-total td{background:#111;color:#fff;font-weight:bold;font-size:10px;padding:5px 6px;}
+        .rpt-consolidado{margin-top:8px;border:1px solid #999;border-radius:4px;overflow:hidden;}
+        .rpt-consolidado-title{background:#444;color:#fff;padding:4px 8px;font-size:9px;font-weight:bold;text-transform:uppercase;}
         .rpt-consolidado-grid{display:grid;grid-template-columns:repeat(7,1fr);}
-        .rpt-con-item{padding:6px 4px;text-align:center;border-right:1px solid #e5e7eb;}
+        .rpt-con-item{padding:6px 4px;text-align:center;border-right:1px solid #ccc;}
         .rpt-con-item:last-child{border-right:none;}
-        .rpt-con-item .clabel{font-size:8px;color:#6b7280;font-weight:600;text-transform:uppercase;margin-bottom:2px;}
-        .rpt-con-item .cval{font-size:10px;font-weight:bold;}
-        .rpt-con-item .civa{font-size:7px;color:#6b7280;}
-        .rpt-firmas{display:grid;grid-template-columns:repeat(2,1fr);gap:30px;margin-top:14px;padding-top:10px;border-top:1px solid #d1d5db;}
-        .rpt-firma{text-align:center;}
-        .rpt-firma-line{border-top:1px solid #374151;margin-bottom:4px;margin-top:24px;}
-        .rpt-firma p{font-size:8px;color:#374151;}
+        .rpt-con-item .clabel{font-size:8px;color:#444;font-weight:700;text-transform:uppercase;margin-bottom:2px;}
+        .rpt-con-item .cval{font-size:10px;font-weight:bold;color:#111;}
+        .rpt-con-item .civa{font-size:7px;color:#555;}
+        .rpt-firmas{display:flex;justify-content:flex-start;margin-top:14px;padding-top:10px;border-top:1px solid #888;}
+        .rpt-firma{text-align:center;width:220px;}
+        .rpt-firma-line{border-top:1px solid #222;margin-bottom:4px;margin-top:24px;width:100%;}
+        .rpt-firma p{font-size:8px;color:#222;}
 
         @media print{
             @page{margin:.8cm;size:letter portrait;}
@@ -99,6 +99,12 @@
             .container{max-width:100%;}
             #informe-content{font-size:10px;}
             .rpt-wrap{padding:0;}
+            /* Forzar impresión de fondos y colores */
+            *{
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
         }
         @media(max-width:768px){
             body{padding:10px;}
@@ -577,8 +583,8 @@ function renderInforme(){
         '<div class="rpt-wrap">'
         +'<div class="rpt-header">'
         +'<div>'
-        +'<div class="rpt-title">Liquidaci\u00f3n de Vi\u00e1ticos Semanal</div>'
-        +'<div class="rpt-sub">'+nombreInforme(d.infoGeneral)+'</div>'
+        +'<div class="rpt-title">RGIS El Salvador &mdash; Distrito 647</div>'
+        +'<div class="rpt-sub">Liquidaci\u00f3n de Vi\u00e1ticos Semanal &bull; '+nombreInforme(d.infoGeneral)+'</div>'
         +'</div>'
         +'<div class="rpt-meta">'
         +'<div class="rpt-meta-item"><p>L\u00edder</p><p>'+(d.infoGeneral.lider||'N/A')+'</p></div>'
@@ -616,12 +622,9 @@ function renderInforme(){
         +'<div class="rpt-consolidado-title">Consolidado por Categor\u00eda</div>'
         +'<div class="rpt-consolidado-grid">'+conHtml+'</div>'
         +'</div>'
-        +'<div class="rpt-firmas">'
-        +'<div class="rpt-firma"><div class="rpt-firma-line"></div>'
-        +'<p><strong>'+(d.infoGeneral.lider||'L\u00edder Responsable')+'</strong></p>'
+        +'<div class="rpt-firmas" style="grid-template-columns:1fr;">'
+        +'<div class="rpt-firma"><div class="rpt-firma-line"></div>'        +'<p><strong>'+(d.infoGeneral.lider||'L\u00edder Responsable')+'</strong></p>'
         +'<p>Elaborado por</p></div>'
-        +'<div class="rpt-firma"><div class="rpt-firma-line"></div>'
-        +'<p><strong>Autorizado por</strong></p><p>Firma y sello</p></div>'
         +'</div>'
         +'</div>';
 }
