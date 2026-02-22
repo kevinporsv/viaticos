@@ -12,6 +12,7 @@
         .nav-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px;}
         .btn{padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;transition:all .3s;display:inline-flex;align-items:center;gap:8px;}
         .btn-sm{padding:5px 10px;font-size:12px;border-radius:6px;}
+        .btn-icon{padding:6px 10px;font-size:13px;line-height:1;}
         .btn-primary{background:#2563eb;color:#fff;} .btn-primary:hover{background:#1d4ed8;}
         .btn-secondary{background:#fff;color:#374151;border:1px solid #d1d5db;} .btn-secondary:hover{background:#f3f4f6;}
         .btn-success{background:#16a34a;color:#fff;} .btn-success:hover{background:#15803d;}
@@ -40,7 +41,6 @@
         .summary-item p{font-size:14px;opacity:.9;margin-bottom:6px;}
         .summary-item h3{font-size:22px;font-weight:bold;}
         .deficit{border:2px solid rgba(239,68,68,.3);}
-        /* Historial */
         .historial-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
         .historial-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);transition:all .3s;}
         .historial-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.15);}
@@ -50,12 +50,9 @@
         .historial-info{font-size:14px;color:#6b7280;margin-bottom:6px;}
         .historial-actions{display:flex;gap:8px;margin-top:14px;}
         .historial-actions .btn{flex:1;justify-content:center;padding:8px 10px;font-size:13px;}
-        .btn-icon{padding:6px 10px;font-size:13px;line-height:1;}
-        /* Edición banner */
         .edit-banner{background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
         .edit-banner span{font-size:14px;color:#92400e;font-weight:500;}
         .edit-banner-actions{display:flex;gap:8px;flex-shrink:0;}
-        /* Misc */
         .empty-state{text-align:center;padding:60px 20px;color:#9ca3af;}
         .empty-state-icon{font-size:64px;margin-bottom:16px;}
         .iva-nota{font-size:11px;color:#6b7280;margin-top:4px;font-style:italic;}
@@ -76,17 +73,17 @@
         .rpt-res-item .rval{font-size:13px;font-weight:bold;}
         .rpt-table{width:100%;border-collapse:collapse;margin-bottom:8px;}
         .rpt-table th{background:#1f2937;color:#fff;padding:4px 6px;font-size:8px;text-transform:uppercase;font-weight:600;}
-        .rpt-table td{padding:3px 6px;border-bottom:1px solid #e5e7eb;font-size:8.5px;}
-        .rpt-table tr:nth-child(even) td{background:#f9fafb;}
-        .rpt-table .ev-header td{background:#374151;color:#fff;font-weight:bold;font-size:8.5px;padding:4px 6px;}
-        .rpt-table .ev-subtotal td{background:#eff6ff;font-weight:bold;font-size:8.5px;}
-        .rpt-table .grand-total td{background:#1f2937;color:#fff;font-weight:bold;font-size:9px;padding:5px 6px;}
+        .rpt-table td{padding:3px 6px;border-bottom:1px solid #e5e7eb;font-size:9px;}
+        .rpt-table tr.fila-par td{background:#f9fafb;}
+        .rpt-table .ev-header td{background:#374151;color:#fff;font-weight:bold;font-size:9px;padding:4px 6px;}
+        .rpt-table .ev-subtotal td{background:#eff6ff;font-weight:bold;font-size:9px;}
+        .rpt-table .grand-total td{background:#1f2937;color:#fff;font-weight:bold;font-size:10px;padding:5px 6px;}
         .rpt-consolidado{margin-top:8px;border:1px solid #d1d5db;border-radius:4px;overflow:hidden;}
-        .rpt-consolidado-title{background:#374151;color:#fff;padding:4px 8px;font-size:8.5px;font-weight:bold;text-transform:uppercase;}
+        .rpt-consolidado-title{background:#374151;color:#fff;padding:4px 8px;font-size:9px;font-weight:bold;text-transform:uppercase;}
         .rpt-consolidado-grid{display:grid;grid-template-columns:repeat(7,1fr);}
         .rpt-con-item{padding:6px 4px;text-align:center;border-right:1px solid #e5e7eb;}
         .rpt-con-item:last-child{border-right:none;}
-        .rpt-con-item .clabel{font-size:7.5px;color:#6b7280;font-weight:600;text-transform:uppercase;margin-bottom:2px;}
+        .rpt-con-item .clabel{font-size:8px;color:#6b7280;font-weight:600;text-transform:uppercase;margin-bottom:2px;}
         .rpt-con-item .cval{font-size:10px;font-weight:bold;}
         .rpt-con-item .civa{font-size:7px;color:#6b7280;}
         .rpt-firmas{display:grid;grid-template-columns:repeat(2,1fr);gap:30px;margin-top:14px;padding-top:10px;border-top:1px solid #d1d5db;}
@@ -155,9 +152,7 @@
                     <div class="summary-item" id="diferencia-card"><p id="diferencia-label">Saldo</p><h3 id="diferencia-total">$0.00</h3></div>
                 </div>
             </div>
-            <div style="display:flex;gap:10px;">
-                <button class="btn btn-purple" onclick="guardarInforme()" style="flex:1;" id="btn-guardar-nuevo">💾 Guardar Informe</button>
-            </div>
+            <button class="btn btn-purple" onclick="guardarInforme()" style="width:100%;">💾 Guardar Informe</button>
         </div>
     </div>
 
@@ -177,81 +172,91 @@
 </div>
 
 <script>
-const CATEGORIAS=['HOTEL','ALIMENTOS','GASOLINA','PAPELERIA','RECARGA','UBER','PARQUEO'];
-const CATS_IVA=['GASOLINA','HOTEL'];
-const IVA=0.13;
+var CATEGORIAS = ['HOTEL','ALIMENTOS','GASOLINA','PAPELERIA','RECARGA','UBER','PARQUEO'];
+var CATS_IVA   = ['GASOLINA','HOTEL'];
+var IVA        = 0.13;
 
-let eventos=[], informesGuardados=[], informeSeleccionado=null;
-let modoEdicion=false, idInformeEditando=null;
+var eventos          = [];
+var informesGuardados = [];
+var informeSeleccionado = null;
+var modoEdicion      = false;
+var idInformeEditando = null;
 
-informesGuardados=[];
 actualizarContadorHistorial();
 
-function extraerIVA(m){const base=m/(1+IVA);return{base,iva:m-base};}
-function calcularTotal(g){return Object.values(g).reduce((s,v)=>s+v,0);}
-function calcularIVADesglosado(g){return CATS_IVA.reduce((s,c)=>s+(g[c]?extraerIVA(g[c]).iva:0),0);}
-function nombreInforme(i){return `Liquidación Semana ${i.semana||'?'} Cuarto ${i.cuarto||'?'}`;}
+/* ── helpers ── */
+function extraerIVA(m){ var base = m/(1+IVA); return {base:base, iva:m-base}; }
 
+function calcularTotal(g){
+    var s=0; for(var k in g) s+=g[k]; return s;
+}
+
+function calcularIVADesglosado(g){
+    var s=0;
+    for(var i=0;i<CATS_IVA.length;i++){
+        var c=CATS_IVA[i]; if(g[c]) s+=extraerIVA(g[c]).iva;
+    }
+    return s;
+}
+
+function nombreInforme(info){
+    return 'Liquidaci\u00f3n Semana '+(info.semana||'?')+' Cuarto '+(info.cuarto||'?');
+}
+
+function fmt(n){ return '$'+n.toFixed(2); }
+
+/* ── vistas ── */
 function mostrarVista(v){
-    ['registro','historial','informe'].forEach(x=>document.getElementById('vista-'+x).classList.add('hidden'));
+    var vistas=['registro','historial','informe'];
+    for(var i=0;i<vistas.length;i++) document.getElementById('vista-'+vistas[i]).classList.add('hidden');
     document.getElementById('vista-'+v).classList.remove('hidden');
     if(v==='historial') renderHistorial();
     if(v==='informe'){
-        informeSeleccionado=null; renderInforme();
-        document.querySelector('#vista-informe .no-print').style.display=eventos.length===0?'none':'block';
+        informeSeleccionado=null;
+        renderInforme();
+        document.querySelector('#vista-informe .no-print').style.display = eventos.length===0 ? 'none' : 'block';
     }
 }
 
-/* ── Edición de informe del historial ── */
+/* ── edición ── */
 function editarInforme(id){
-    const inf=informesGuardados.find(i=>i.id===id);
-    if(!inf){alert('❌ No se encontró el informe');return;}
-    // Cargar datos en el formulario
-    document.getElementById('lider').value=inf.infoGeneral.lider||'';
-    document.getElementById('semana').value=inf.infoGeneral.semana||'';
-    document.getElementById('cuarto').value=inf.infoGeneral.cuarto||'';
-    eventos=JSON.parse(JSON.stringify(inf.eventos));
-    modoEdicion=true;
-    idInformeEditando=id;
-    // Mostrar banner
+    var inf=buscarInforme(id);
+    if(!inf){alert('No se encontró el informe');return;}
+    document.getElementById('lider').value  = inf.infoGeneral.lider  || '';
+    document.getElementById('semana').value = inf.infoGeneral.semana || '';
+    document.getElementById('cuarto').value = inf.infoGeneral.cuarto || '';
+    eventos = JSON.parse(JSON.stringify(inf.eventos));
+    modoEdicion=true; idInformeEditando=id;
     document.getElementById('edit-banner').classList.remove('hidden');
-    document.getElementById('edit-banner-nombre').textContent=nombreInforme(inf.infoGeneral);
+    document.getElementById('edit-banner-nombre').textContent = nombreInforme(inf.infoGeneral);
     renderEventos();
-    function imprimirInforme(){
-    let d=informeSeleccionado||{
-        infoGeneral:{lider:document.getElementById('lider').value,semana:document.getElementById('semana').value,cuarto:document.getElementById('cuarto').value}
-    };
-    const lider=(d.infoGeneral.lider||'Lider').trim();
-    const semana=(d.infoGeneral.semana||'?').trim();
-    const cuarto=(d.infoGeneral.cuarto||'?').trim();
-    const titulo=`${lider} - Liquidación Semana ${semana} Cuarto ${cuarto}`;
-    const prevTitle=document.title;
-    document.title=titulo;
-    window.print();
-    document.title=prevTitle;
-}
-
-mostrarVista('registro');
+    mostrarVista('registro');
 }
 
 function guardarEdicion(){
-    if(eventos.length===0){alert('❌ Agrega al menos un evento');return;}
-    if(!eventos.some(e=>calcularTotal(e.gastos)>0)){alert('❌ Ingresa al menos un gasto');return;}
-    const lider=document.getElementById('lider').value.trim(),semana=document.getElementById('semana').value.trim();
-    if(!lider||!semana){alert('❌ Completa el nombre del líder y la semana');return;}
-    const tv=eventos.reduce((s,e)=>s+(parseFloat(e.viaticosAsignados)||0),0);
-    const tg=eventos.reduce((s,e)=>s+calcularTotal(e.gastos),0);
-    const idx=informesGuardados.findIndex(i=>i.id===idInformeEditando);
-    if(idx===-1){alert('❌ Error: informe no encontrado');return;}
-    informesGuardados[idx]={
-        ...informesGuardados[idx],
-        infoGeneral:{lider,semana,cuarto:document.getElementById('cuarto').value.trim()},
-        eventos:JSON.parse(JSON.stringify(eventos)),
-        totalViaticosAsignados:tv,totalGastado:tg,diferencia:tv-tg
-    };
+    if(eventos.length===0){alert('Agrega al menos un evento');return;}
+    if(!eventos.some(function(e){return calcularTotal(e.gastos)>0;})){alert('Ingresa al menos un gasto');return;}
+    var lider=document.getElementById('lider').value.trim();
+    var semana=document.getElementById('semana').value.trim();
+    if(!lider||!semana){alert('Completa el nombre del l\u00edder y la semana');return;}
+    var tv=0,tg=0;
+    for(var i=0;i<eventos.length;i++){
+        tv+=(parseFloat(eventos[i].viaticosAsignados)||0);
+        tg+=calcularTotal(eventos[i].gastos);
+    }
+    var idx=-1;
+    for(var j=0;j<informesGuardados.length;j++){
+        if(informesGuardados[j].id===idInformeEditando){idx=j;break;}
+    }
+    if(idx===-1){alert('Error: informe no encontrado');return;}
+    informesGuardados[idx].infoGeneral = {lider:lider, semana:semana, cuarto:document.getElementById('cuarto').value.trim()};
+    informesGuardados[idx].eventos     = JSON.parse(JSON.stringify(eventos));
+    informesGuardados[idx].totalViaticosAsignados = tv;
+    informesGuardados[idx].totalGastado           = tg;
+    informesGuardados[idx].diferencia             = tv-tg;
     cancelarEdicion();
     actualizarContadorHistorial();
-    alert('✅ Liquidación actualizada correctamente');
+    alert('Liquidaci\u00f3n actualizada correctamente');
     mostrarVista('historial');
 }
 
@@ -261,208 +266,383 @@ function cancelarEdicion(){
     limpiarFormulario();
 }
 
-/* ── Eventos ── */
+/* ── eventos ── */
 function agregarEvento(){
-    const ev={id:Date.now(),nombre:'',vehiculos:'',viaticosAsignados:0,gastos:{}};
-    CATEGORIAS.forEach(c=>ev.gastos[c]=0); eventos.push(ev); renderEventos();
-    // Scroll al nuevo evento (último de la lista)
-    setTimeout(()=>{
-        const tarjetas=document.querySelectorAll('.evento-card');
-        if(tarjetas.length) tarjetas[tarjetas.length-1].scrollIntoView({behavior:'smooth',block:'start'});
+    var ev={id:Date.now(),nombre:'',vehiculos:'',viaticosAsignados:0,gastos:{}};
+    for(var i=0;i<CATEGORIAS.length;i++) ev.gastos[CATEGORIAS[i]]=0;
+    eventos.push(ev);
+    renderEventos();
+    setTimeout(function(){
+        var cards=document.querySelectorAll('.evento-card');
+        if(cards.length) cards[cards.length-1].scrollIntoView({behavior:'smooth',block:'start'});
     },50);
 }
-function eliminarEvento(id){if(confirm('¿Eliminar evento?')){eventos=eventos.filter(e=>e.id!==id);renderEventos();}}
-function actualizarEvento(id,campo,valor){const ev=eventos.find(e=>e.id===id);if(ev){ev[campo]=valor;calcularTotales();}}
-function actualizarGasto(id,cat,valor){const ev=eventos.find(e=>e.id===id);if(ev){ev.gastos[cat]=parseFloat(valor)||0;renderEventos();}}
+
+function eliminarEvento(id){
+    if(!confirm('Eliminar este evento?')) return;
+    var arr=[];
+    for(var i=0;i<eventos.length;i++) if(eventos[i].id!==id) arr.push(eventos[i]);
+    eventos=arr; renderEventos();
+}
+
+function actualizarEvento(id,campo,valor){
+    for(var i=0;i<eventos.length;i++){
+        if(eventos[i].id===id){eventos[i][campo]=valor;calcularTotales();break;}
+    }
+}
+
+function actualizarGasto(id,cat,valor){
+    for(var i=0;i<eventos.length;i++){
+        if(eventos[i].id===id){eventos[i].gastos[cat]=parseFloat(valor)||0;renderEventos();break;}
+    }
+}
 
 function calcularTotales(){
-    const tv=eventos.reduce((s,e)=>s+(parseFloat(e.viaticosAsignados)||0),0);
-    const tg=eventos.reduce((s,e)=>s+calcularTotal(e.gastos),0);
-    const df=tv-tg;
-    document.getElementById('total-viaticos-asignados').textContent='$'+tv.toFixed(2);
-    document.getElementById('total-gastado').textContent='$'+tg.toFixed(2);
-    document.getElementById('diferencia-total').textContent='$'+Math.abs(df).toFixed(2);
-    document.getElementById('diferencia-label').textContent=df>=0?'Saldo':'Déficit';
+    var tv=0,tg=0;
+    for(var i=0;i<eventos.length;i++){
+        tv+=(parseFloat(eventos[i].viaticosAsignados)||0);
+        tg+=calcularTotal(eventos[i].gastos);
+    }
+    var df=tv-tg;
+    document.getElementById('total-viaticos-asignados').textContent=fmt(tv);
+    document.getElementById('total-gastado').textContent=fmt(tg);
+    document.getElementById('diferencia-total').textContent=fmt(Math.abs(df));
+    document.getElementById('diferencia-label').textContent=df>=0?'Saldo':'D\u00e9ficit';
     document.getElementById('diferencia-card').classList.toggle('deficit',df<0);
 }
 
 function renderEventos(){
-    const cont=document.getElementById('eventos-container');
-    if(eventos.length===0){cont.innerHTML='';document.getElementById('resumen-semanal').classList.add('hidden');return;}
+    var cont=document.getElementById('eventos-container');
+    if(eventos.length===0){
+        cont.innerHTML='';
+        document.getElementById('resumen-semanal').classList.add('hidden');
+        return;
+    }
     document.getElementById('resumen-semanal').classList.remove('hidden');
-    cont.innerHTML=eventos.map((ev,idx)=>{
-        const tg=calcularTotal(ev.gastos),iva=calcularIVADesglosado(ev.gastos),vi=parseFloat(ev.viaticosAsignados)||0,df=vi-tg;
-        return `<div class="evento-card">
-            <div class="evento-header">
-                <h3>${ev.nombre||'Evento '+(idx+1)}</h3>
-                <button class="btn btn-danger btn-icon" onclick="eliminarEvento(${ev.id})" title="Eliminar evento">🗑</button>
-            </div>
-            <div class="form-grid">
-                <div class="form-group"><label>Nombre del Evento</label>
-                    <input type="text" value="${ev.nombre}" placeholder="Nombre del evento" onchange="actualizarEvento(${ev.id},'nombre',this.value)"></div>
-                <div class="form-group"><label>Vehículos Utilizados</label>
-                    <input type="text" value="${ev.vehiculos}" placeholder="Ej: Toyota Corolla ABC-123" onchange="actualizarEvento(${ev.id},'vehiculos',this.value)"></div>
-                <div class="form-group"><label>Viáticos Asignados ($)</label>
-                    <input type="number" step="0.01" value="${ev.viaticosAsignados}" onchange="actualizarEvento(${ev.id},'viaticosAsignados',this.value)"></div>
-            </div>
-            <div style="border-top:1px solid #e5e7eb;margin-top:14px;padding-top:14px;">
-                <h4 style="margin-bottom:3px;">Gastos por Categoría</h4>
-                <p class="iva-nota">* Hotel y Gasolina: ingrese monto total (IVA ya incluido)</p>
-                <div class="gastos-grid">
-                    ${CATEGORIAS.map(cat=>`<div class="form-group"><label>${cat}${CATS_IVA.includes(cat)?' *':''}</label>
-                        <input type="number" step="0.01" value="${ev.gastos[cat]}" onchange="actualizarGasto(${ev.id},'${cat}',this.value)"></div>`).join('')}
-                </div>
-                <div class="resumen-box">
-                    ${iva>0?`<div class="resumen-item"><span style="color:#6b7280;">IVA incluido (Hotel/Gasolina):</span><strong>$${iva.toFixed(2)}</strong></div>`:''}
-                    <div class="resumen-item"><span style="color:#1f2937;font-weight:600;">Total Gastado:</span><strong style="color:#2563eb;">$${tg.toFixed(2)}</strong></div>
-                    <div class="resumen-item total"><span>Viáticos Asignados:</span><strong>$${vi.toFixed(2)}</strong></div>
-                    <div class="resumen-item" style="color:${df>=0?'#16a34a':'#dc2626'};"><span style="font-weight:bold;">${df>=0?'Saldo:':'Déficit:'}</span><strong>$${Math.abs(df).toFixed(2)}</strong></div>
-                </div>
-            </div>
-        </div>`;
-    }).join('');
+    var html='';
+    for(var idx=0;idx<eventos.length;idx++){
+        var ev=eventos[idx];
+        var tg=calcularTotal(ev.gastos);
+        var iva=calcularIVADesglosado(ev.gastos);
+        var vi=parseFloat(ev.viaticosAsignados)||0;
+        var df=vi-tg;
+        var ivaRow = iva>0
+            ? '<div class="resumen-item"><span style="color:#6b7280;">IVA incluido (Hotel/Gasolina):</span><strong>'+fmt(iva)+'</strong></div>'
+            : '';
+        var dfColor=df>=0?'#16a34a':'#dc2626';
+        var dfLabel=df>=0?'Saldo:':'D\u00e9ficit:';
+        var gastosCols='';
+        for(var g=0;g<CATEGORIAS.length;g++){
+            var cat=CATEGORIAS[g];
+            var asterisco=CATS_IVA.indexOf(cat)>=0?' *':'';
+            gastosCols+='<div class="form-group">'
+                +'<label>'+cat+asterisco+'</label>'
+                +'<input type="number" step="0.01" value="'+ev.gastos[cat]+'" '
+                +'onchange="actualizarGasto('+ev.id+',\''+cat+'\',this.value)">'
+                +'</div>';
+        }
+        html+='<div class="evento-card">'
+            +'<div class="evento-header">'
+            +'<h3>'+(ev.nombre||'Evento '+(idx+1))+'</h3>'
+            +'<button class="btn btn-danger btn-icon" onclick="eliminarEvento('+ev.id+')" title="Eliminar">&#x1F5D1;</button>'
+            +'</div>'
+            +'<div class="form-grid">'
+            +'<div class="form-group"><label>Nombre del Evento</label>'
+            +'<input type="text" value="'+ev.nombre+'" placeholder="Nombre del evento" '
+            +'onchange="actualizarEvento('+ev.id+',\'nombre\',this.value)"></div>'
+            +'<div class="form-group"><label>Veh\u00edculos Utilizados</label>'
+            +'<input type="text" value="'+ev.vehiculos+'" placeholder="Ej: Toyota Corolla ABC-123" '
+            +'onchange="actualizarEvento('+ev.id+',\'vehiculos\',this.value)"></div>'
+            +'<div class="form-group"><label>Vi\u00e1ticos Asignados ($)</label>'
+            +'<input type="number" step="0.01" value="'+ev.viaticosAsignados+'" '
+            +'onchange="actualizarEvento('+ev.id+',\'viaticosAsignados\',this.value)"></div>'
+            +'</div>'
+            +'<div style="border-top:1px solid #e5e7eb;margin-top:14px;padding-top:14px;">'
+            +'<h4 style="margin-bottom:3px;">Gastos por Categor\u00eda</h4>'
+            +'<p class="iva-nota">* Hotel y Gasolina: ingrese monto total (IVA ya incluido)</p>'
+            +'<div class="gastos-grid">'+gastosCols+'</div>'
+            +'<div class="resumen-box">'
+            +ivaRow
+            +'<div class="resumen-item"><span style="color:#1f2937;font-weight:600;">Total Gastado:</span><strong style="color:#2563eb;">'+fmt(tg)+'</strong></div>'
+            +'<div class="resumen-item total"><span>Vi\u00e1ticos Asignados:</span><strong>'+fmt(vi)+'</strong></div>'
+            +'<div class="resumen-item" style="color:'+dfColor+';">'
+            +'<span style="font-weight:bold;">'+dfLabel+'</span><strong>'+fmt(Math.abs(df))+'</strong></div>'
+            +'</div></div></div>';
+    }
+    cont.innerHTML=html;
     calcularTotales();
 }
 
-/* ── Guardar nuevo ── */
+/* ── guardar nuevo ── */
 function guardarInforme(){
     if(modoEdicion){guardarEdicion();return;}
-    if(eventos.length===0){alert('❌ Agrega al menos un evento');return;}
-    if(!eventos.some(e=>calcularTotal(e.gastos)>0)){alert('❌ Ingresa al menos un gasto');return;}
-    const lider=document.getElementById('lider').value.trim(),semana=document.getElementById('semana').value.trim();
-    if(!lider||!semana){alert('❌ Completa el nombre del líder y la semana');return;}
-    const tv=eventos.reduce((s,e)=>s+(parseFloat(e.viaticosAsignados)||0),0);
-    const tg=eventos.reduce((s,e)=>s+calcularTotal(e.gastos),0);
-    const inf={id:Date.now(),fecha:new Date().toISOString(),
-        infoGeneral:{lider,semana,cuarto:document.getElementById('cuarto').value.trim()},
+    if(eventos.length===0){alert('Agrega al menos un evento');return;}
+    if(!eventos.some(function(e){return calcularTotal(e.gastos)>0;})){alert('Ingresa al menos un gasto');return;}
+    var lider=document.getElementById('lider').value.trim();
+    var semana=document.getElementById('semana').value.trim();
+    if(!lider||!semana){alert('Completa el nombre del l\u00edder y la semana');return;}
+    var tv=0,tg=0;
+    for(var i=0;i<eventos.length;i++){
+        tv+=(parseFloat(eventos[i].viaticosAsignados)||0);
+        tg+=calcularTotal(eventos[i].gastos);
+    }
+    var inf={
+        id:Date.now(),
+        fecha:new Date().toISOString(),
+        infoGeneral:{lider:lider,semana:semana,cuarto:document.getElementById('cuarto').value.trim()},
         eventos:JSON.parse(JSON.stringify(eventos)),
-        totalViaticosAsignados:tv,totalGastado:tg,diferencia:tv-tg};
+        totalViaticosAsignados:tv,
+        totalGastado:tg,
+        diferencia:tv-tg
+    };
     informesGuardados.unshift(inf);
-    actualizarContadorHistorial(); limpiarFormulario();
-    alert('✅ Informe guardado. Total: '+informesGuardados.length);
+    actualizarContadorHistorial();
+    limpiarFormulario();
+    alert('Informe guardado. Total: '+informesGuardados.length);
     mostrarVista('historial');
 }
 
 function limpiarFormulario(){
-    ['lider','semana','cuarto'].forEach(id=>document.getElementById(id).value='');
+    ['lider','semana','cuarto'].forEach(function(id){document.getElementById(id).value='';});
     eventos=[]; renderEventos();
 }
-function actualizarContadorHistorial(){document.getElementById('historial-count').textContent=informesGuardados.length;}
 
-/* ── Historial ── */
-function eliminarInformeGuardado(id){
-    if(confirm('¿Eliminar este informe permanentemente?')){
-        informesGuardados=informesGuardados.filter(i=>i.id!==id);
-        actualizarContadorHistorial(); renderHistorial();
-    }
+function actualizarContadorHistorial(){
+    document.getElementById('historial-count').textContent=informesGuardados.length;
 }
+
+/* ── historial ── */
+function buscarInforme(id){
+    for(var i=0;i<informesGuardados.length;i++) if(informesGuardados[i].id===id) return informesGuardados[i];
+    return null;
+}
+
+function eliminarInformeGuardado(id){
+    if(!confirm('Eliminar este informe permanentemente?')) return;
+    var arr=[];
+    for(var i=0;i<informesGuardados.length;i++) if(informesGuardados[i].id!==id) arr.push(informesGuardados[i]);
+    informesGuardados=arr;
+    actualizarContadorHistorial();
+    renderHistorial();
+}
+
 function verInformeGuardado(id){
-    informeSeleccionado=informesGuardados.find(i=>i.id===id);
-    if(!informeSeleccionado){alert('❌ No se pudo cargar');return;}
-    ['registro','historial'].forEach(x=>document.getElementById('vista-'+x).classList.add('hidden'));
+    informeSeleccionado=buscarInforme(id);
+    if(!informeSeleccionado){alert('No se pudo cargar');return;}
+    ['registro','historial'].forEach(function(x){document.getElementById('vista-'+x).classList.add('hidden');});
     document.getElementById('vista-informe').classList.remove('hidden');
     renderInforme();
     document.querySelector('#vista-informe .no-print').style.display='block';
 }
 
 function renderHistorial(){
-    const cont=document.getElementById('historial-container');
+    var cont=document.getElementById('historial-container');
     if(informesGuardados.length===0){
-        cont.innerHTML=`<div class="empty-state"><div class="empty-state-icon">📦</div>
-            <p style="font-size:18px;margin-bottom:8px;">No hay informes guardados</p>
-            <p>Crea tu primer informe en la pestaña Registro</p></div>`;
+        cont.innerHTML='<div class="empty-state"><div class="empty-state-icon">📦</div>'
+            +'<p style="font-size:18px;margin-bottom:8px;">No hay informes guardados</p>'
+            +'<p>Crea tu primer informe en la pesta\u00f1a Registro</p></div>';
         return;
     }
-    cont.innerHTML=`<div class="historial-grid">${informesGuardados.map(inf=>`
-        <div class="historial-card">
-            <div class="historial-header">
-                <div class="historial-header-title">
-                    <h3>${nombreInforme(inf.infoGeneral)}</h3>
-                    <p>${new Date(inf.fecha).toLocaleDateString('es-ES',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</p>
-                </div>
-                <button class="btn btn-danger btn-icon" onclick="eliminarInformeGuardado(${inf.id})" title="Eliminar">✕</button>
-            </div>
-            <div style="border-top:1px solid #e5e7eb;padding-top:12px;">
-                <p class="historial-info"><strong>Líder:</strong> ${inf.infoGeneral.lider||'N/A'}</p>
-                <p class="historial-info"><strong>Eventos:</strong> ${inf.eventos.length}</p>
-                <p class="historial-info"><strong>Viáticos:</strong> $${inf.totalViaticosAsignados.toFixed(2)}</p>
-                <p class="historial-info"><strong>Gastado:</strong> $${inf.totalGastado.toFixed(2)}</p>
-                <p class="historial-info" style="color:${inf.diferencia>=0?'#16a34a':'#dc2626'};font-weight:600;">
-                    <strong>${inf.diferencia>=0?'Saldo:':'Déficit:'}</strong> $${Math.abs(inf.diferencia).toFixed(2)}
-                </p>
-            </div>
-            <div class="historial-actions">
-                <button class="btn btn-primary" onclick="verInformeGuardado(${inf.id})">👁️ Ver</button>
-                <button class="btn btn-warning" onclick="editarInforme(${inf.id})">✏️ Editar</button>
-            </div>
-        </div>`).join('')}</div>`;
+    var html='<div class="historial-grid">';
+    for(var i=0;i<informesGuardados.length;i++){
+        var inf=informesGuardados[i];
+        var dfColor=inf.diferencia>=0?'#16a34a':'#dc2626';
+        var dfLabel=inf.diferencia>=0?'Saldo:':'D\u00e9ficit:';
+        var fecha=new Date(inf.fecha).toLocaleDateString('es-ES',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+        html+='<div class="historial-card">'
+            +'<div class="historial-header">'
+            +'<div class="historial-header-title">'
+            +'<h3>'+nombreInforme(inf.infoGeneral)+'</h3>'
+            +'<p>'+fecha+'</p>'
+            +'</div>'
+            +'<button class="btn btn-danger btn-icon" onclick="eliminarInformeGuardado('+inf.id+')" title="Eliminar">&#x2715;</button>'
+            +'</div>'
+            +'<div style="border-top:1px solid #e5e7eb;padding-top:12px;">'
+            +'<p class="historial-info"><strong>L\u00edder:</strong> '+(inf.infoGeneral.lider||'N/A')+'</p>'
+            +'<p class="historial-info"><strong>Eventos:</strong> '+inf.eventos.length+'</p>'
+            +'<p class="historial-info"><strong>Vi\u00e1ticos:</strong> '+fmt(inf.totalViaticosAsignados)+'</p>'
+            +'<p class="historial-info"><strong>Gastado:</strong> '+fmt(inf.totalGastado)+'</p>'
+            +'<p class="historial-info" style="color:'+dfColor+';font-weight:600;"><strong>'+dfLabel+'</strong> '+fmt(Math.abs(inf.diferencia))+'</p>'
+            +'</div>'
+            +'<div class="historial-actions">'
+            +'<button class="btn btn-primary" onclick="verInformeGuardado('+inf.id+')">&#x1F441;&#xFE0F; Ver</button>'
+            +'<button class="btn btn-warning" onclick="editarInforme('+inf.id+')">&#x270F;&#xFE0F; Editar</button>'
+            +'</div></div>';
+    }
+    html+='</div>';
+    cont.innerHTML=html;
 }
 
-/* ── Informe imprimible ── */
+/* ── informe ── */
 function renderInforme(){
-    let d=informeSeleccionado||{
-        infoGeneral:{lider:document.getElementById('lider').value,semana:document.getElementById('semana').value,cuarto:document.getElementById('cuarto').value},
-        eventos,totalViaticosAsignados:eventos.reduce((s,e)=>s+(parseFloat(e.viaticosAsignados)||0),0),
-        totalGastado:eventos.reduce((s,e)=>s+calcularTotal(e.gastos),0),diferencia:0
-    };
-    if(!informeSeleccionado) d.diferencia=d.totalViaticosAsignados-d.totalGastado;
+    var d;
+    if(informeSeleccionado){
+        d=informeSeleccionado;
+    } else {
+        var tv=0,tg=0;
+        for(var i=0;i<eventos.length;i++){
+            tv+=(parseFloat(eventos[i].viaticosAsignados)||0);
+            tg+=calcularTotal(eventos[i].gastos);
+        }
+        d={
+            infoGeneral:{
+                lider:document.getElementById('lider').value,
+                semana:document.getElementById('semana').value,
+                cuarto:document.getElementById('cuarto').value
+            },
+            eventos:eventos,
+            totalViaticosAsignados:tv,
+            totalGastado:tg,
+            diferencia:tv-tg
+        };
+    }
     if(!d.eventos||d.eventos.length===0){
-        document.getElementById('informe-content').innerHTML=`<div class="empty-state"><div class="empty-state-icon">📄</div>
-            <p style="font-size:18px;margin-bottom:8px;">No hay eventos para generar informe</p>
-            <p>Agrega eventos en la pestaña Registro</p></div>`;
+        document.getElementById('informe-content').innerHTML='<div class="empty-state"><div class="empty-state-icon">📄</div>'
+            +'<p style="font-size:18px;margin-bottom:8px;">No hay eventos para generar informe</p>'
+            +'<p>Agrega eventos en la pesta\u00f1a Registro</p></div>';
         return;
     }
-    const con={};
-    CATEGORIAS.forEach(cat=>{
-        const tot=d.eventos.reduce((s,e)=>s+(e.gastos[cat]||0),0);
-        const{base,iva}=CATS_IVA.includes(cat)?extraerIVA(tot):{base:tot,iva:0};
-        con[cat]={tot,base,iva};
-    });
-    let filas='',totalGeneral=0,totalViaticosTodos=0;
-    d.eventos.forEach((ev,idx)=>{
-        const vi=parseFloat(ev.viaticosAsignados)||0,totalEv=calcularTotal(ev.gastos),df=vi-totalEv;
+
+    /* consolidado */
+    var con={};
+    for(var ci=0;ci<CATEGORIAS.length;ci++){
+        var cat=CATEGORIAS[ci];
+        var tot=0;
+        for(var ei=0;ei<d.eventos.length;ei++) tot+=(d.eventos[ei].gastos[cat]||0);
+        var base=tot, iva=0;
+        if(CATS_IVA.indexOf(cat)>=0){ var r=extraerIVA(tot); base=r.base; iva=r.iva; }
+        con[cat]={tot:tot,base:base,iva:iva};
+    }
+
+    /* filas tabla */
+    var filas='', totalGeneral=0, totalViaticosTodos=0, filaIdx=0;
+    for(var ei2=0;ei2<d.eventos.length;ei2++){
+        var ev=d.eventos[ei2];
+        var vi=parseFloat(ev.viaticosAsignados)||0;
+        var totalEv=calcularTotal(ev.gastos);
+        var df=vi-totalEv;
         totalGeneral+=totalEv; totalViaticosTodos+=vi;
-        const cats=CATEGORIAS.filter(c=>(ev.gastos[c]||0)>0);
-        filas+=`<tr class="ev-header"><td colspan="5">${ev.nombre||'Evento '+(idx+1)}${ev.vehiculos?' — 🚗 '+ev.vehiculos:''}</td><td style="text-align:right;">Viáticos: $${vi.toFixed(2)}</td></tr>`;
-        cats.forEach(cat=>{
-            const m=ev.gastos[cat],h=CATS_IVA.includes(cat);
-            const{base,iva}=h?extraerIVA(m):{base:m,iva:0};
-            filas+=`<tr><td style="padding-left:14px;">${cat}</td><td style="text-align:right;">${h?'$'+base.toFixed(2):'-'}</td><td style="text-align:right;">${h?'$'+iva.toFixed(2):'-'}</td><td style="text-align:right;font-weight:bold;">$${m.toFixed(2)}</td><td></td><td></td></tr>`;
-        });
-        filas+=`<tr class="ev-subtotal"><td colspan="3" style="text-align:right;">Subtotal evento:</td><td style="text-align:right;">$${totalEv.toFixed(2)}</td><td colspan="2" style="text-align:right;color:${df>=0?'#16a34a':'#dc2626'};">${df>=0?'Saldo:':'Déficit:'} $${Math.abs(df).toFixed(2)}</td></tr>`;
-    });
-    const dfTotal=totalViaticosTodos-totalGeneral;
-    document.getElementById('informe-content').innerHTML=`
-    <div class="rpt-wrap">
-        <div class="rpt-header">
-            <div><div class="rpt-title">Liquidación de Viáticos Semanal</div><div class="rpt-sub">${nombreInforme(d.infoGeneral)}</div></div>
-            <div class="rpt-meta">
-                <div class="rpt-meta-item"><p>Líder</p><p>${d.infoGeneral.lider||'N/A'}</p></div>
-                <div class="rpt-meta-item"><p>Semana</p><p>${d.infoGeneral.semana||'N/A'}</p></div>
-                <div class="rpt-meta-item"><p>Cuarto</p><p>${d.infoGeneral.cuarto||'N/A'}</p></div>
-                <div class="rpt-meta-item"><p>Fecha</p><p>${new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'})}</p></div>
-            </div>
-        </div>
-        <div class="rpt-resumen">
-            <div class="rpt-res-item"><div class="rlabel">Viáticos Asignados</div><div class="rval">$${d.totalViaticosAsignados.toFixed(2)}</div></div>
-            <div class="rpt-res-item"><div class="rlabel">Total Gastado</div><div class="rval" style="color:#2563eb;">$${d.totalGastado.toFixed(2)}</div></div>
-            <div class="rpt-res-item" style="${d.diferencia<0?'border-color:#dc2626;':''}"><div class="rlabel">${d.diferencia>=0?'Saldo':'Sobregiro'}</div><div class="rval" style="color:${d.diferencia>=0?'#16a34a':'#dc2626'};">$${Math.abs(d.diferencia).toFixed(2)}</div></div>
-        </div>
-        <table class="rpt-table">
-            <thead><tr><th style="width:28%;">Categoría / Evento</th><th style="text-align:right;width:14%;">Base (sin IVA)</th><th style="text-align:right;width:14%;">IVA 13% (incl.)</th><th style="text-align:right;width:14%;">Total</th><th style="width:15%;"></th><th style="text-align:right;width:15%;"></th></tr></thead>
-            <tbody>${filas}<tr class="grand-total"><td colspan="3">TOTAL GENERAL</td><td style="text-align:right;">$${totalGeneral.toFixed(2)}</td><td colspan="2" style="text-align:right;">${dfTotal>=0?'Saldo:':'Déficit:'} $${Math.abs(dfTotal).toFixed(2)}</td></tr></tbody>
-        </table>
-        <div class="rpt-consolidado no-print">
-            <div class="rpt-consolidado-title">Consolidado por Categoría</div>
-            <div class="rpt-consolidado-grid">
-                ${CATEGORIAS.map(cat=>con[cat].tot===0?'':`<div class="rpt-con-item"><div class="clabel">${cat}</div><div class="cval">${con[cat].tot.toFixed(2)}</div>${con[cat].iva>0?`<div class="civa">IVA: ${con[cat].iva.toFixed(2)}</div>`:''}</div>`).join('')}
-            </div>
-        </div>
-        <div class="rpt-firmas">
-            <div class="rpt-firma"><div class="rpt-firma-line"></div><p><strong>${d.infoGeneral.lider||'Líder Responsable'}</strong></p><p>Elaborado por</p></div>
-            <div class="rpt-firma"><div class="rpt-firma-line"></div><p><strong>Autorizado por</strong></p><p>Firma y sello</p></div>
-        </div>
-    </div>`;
+        var vehicStr=ev.vehiculos ? ' \u2014 \uD83D\uDE97 '+ev.vehiculos : '';
+        var evNombre=ev.nombre||('Evento '+(ei2+1));
+        filas+='<tr class="ev-header">'
+            +'<td colspan="5">'+evNombre+vehicStr+'</td>'
+            +'<td style="text-align:right;">Vi\u00e1ticos: '+fmt(vi)+'</td>'
+            +'</tr>';
+        for(var gi=0;gi<CATEGORIAS.length;gi++){
+            var gcat=CATEGORIAS[gi];
+            var m=ev.gastos[gcat]||0;
+            if(m===0) continue;
+            var hayIVA=CATS_IVA.indexOf(gcat)>=0;
+            var gbase=m, giva=0;
+            if(hayIVA){ var gr=extraerIVA(m); gbase=gr.base; giva=gr.iva; }
+            var parClass=filaIdx%2===1?'fila-par':'';
+            filaIdx++;
+            filas+='<tr class="'+parClass+'">'
+                +'<td style="padding-left:14px;">'+gcat+'</td>'
+                +'<td style="text-align:right;">'+(hayIVA?fmt(gbase):'-')+'</td>'
+                +'<td style="text-align:right;">'+(hayIVA?fmt(giva):'-')+'</td>'
+                +'<td style="text-align:right;font-weight:bold;">'+fmt(m)+'</td>'
+                +'<td></td><td></td>'
+                +'</tr>';
+        }
+        var dfColor2=df>=0?'#16a34a':'#dc2626';
+        var dfLabel2=df>=0?'Saldo:':'D\u00e9ficit:';
+        filas+='<tr class="ev-subtotal">'
+            +'<td colspan="3" style="text-align:right;">Subtotal evento:</td>'
+            +'<td style="text-align:right;">'+fmt(totalEv)+'</td>'
+            +'<td colspan="2" style="text-align:right;color:'+dfColor2+';">'+dfLabel2+' '+fmt(Math.abs(df))+'</td>'
+            +'</tr>';
+    }
+    var dfTotal=totalViaticosTodos-totalGeneral;
+    var dfTotalLabel=dfTotal>=0?'Saldo:':'D\u00e9ficit:';
+
+    /* consolidado HTML (solo pantalla) */
+    var conHtml='';
+    for(var cj=0;cj<CATEGORIAS.length;cj++){
+        var ccat=CATEGORIAS[cj];
+        if(con[ccat].tot===0) continue;
+        var ivaStr=con[ccat].iva>0?'<div class="civa">IVA: '+fmt(con[ccat].iva)+'</div>':'';
+        conHtml+='<div class="rpt-con-item">'
+            +'<div class="clabel">'+ccat+'</div>'
+            +'<div class="cval">'+fmt(con[ccat].tot)+'</div>'
+            +ivaStr
+            +'</div>';
+    }
+
+    var hoy=new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'});
+    var dfResColor=d.diferencia>=0?'#16a34a':'#dc2626';
+    var dfResLabel=d.diferencia>=0?'Saldo':'Sobregiro';
+
+    document.getElementById('informe-content').innerHTML=
+        '<div class="rpt-wrap">'
+        +'<div class="rpt-header">'
+        +'<div>'
+        +'<div class="rpt-title">Liquidaci\u00f3n de Vi\u00e1ticos Semanal</div>'
+        +'<div class="rpt-sub">'+nombreInforme(d.infoGeneral)+'</div>'
+        +'</div>'
+        +'<div class="rpt-meta">'
+        +'<div class="rpt-meta-item"><p>L\u00edder</p><p>'+(d.infoGeneral.lider||'N/A')+'</p></div>'
+        +'<div class="rpt-meta-item"><p>Semana</p><p>'+(d.infoGeneral.semana||'N/A')+'</p></div>'
+        +'<div class="rpt-meta-item"><p>Cuarto</p><p>'+(d.infoGeneral.cuarto||'N/A')+'</p></div>'
+        +'<div class="rpt-meta-item"><p>Fecha</p><p>'+hoy+'</p></div>'
+        +'</div>'
+        +'</div>'
+        +'<div class="rpt-resumen">'
+        +'<div class="rpt-res-item"><div class="rlabel">Vi\u00e1ticos Asignados</div><div class="rval">'+fmt(d.totalViaticosAsignados)+'</div></div>'
+        +'<div class="rpt-res-item"><div class="rlabel">Total Gastado</div><div class="rval" style="color:#2563eb;">'+fmt(d.totalGastado)+'</div></div>'
+        +'<div class="rpt-res-item" style="'+(d.diferencia<0?'border-color:#dc2626;':'')+'">'
+        +'<div class="rlabel">'+dfResLabel+'</div>'
+        +'<div class="rval" style="color:'+dfResColor+';">'+fmt(Math.abs(d.diferencia))+'</div>'
+        +'</div>'
+        +'</div>'
+        +'<table class="rpt-table">'
+        +'<thead><tr>'
+        +'<th style="width:30%;">Categor\u00eda / Evento</th>'
+        +'<th style="text-align:right;width:14%;">Base (sin IVA)</th>'
+        +'<th style="text-align:right;width:14%;">IVA 13% (incl.)</th>'
+        +'<th style="text-align:right;width:14%;">Total</th>'
+        +'<th style="width:14%;"></th>'
+        +'<th style="text-align:right;width:14%;"></th>'
+        +'</tr></thead>'
+        +'<tbody>'+filas
+        +'<tr class="grand-total">'
+        +'<td colspan="3">TOTAL GENERAL</td>'
+        +'<td style="text-align:right;">'+fmt(totalGeneral)+'</td>'
+        +'<td colspan="2" style="text-align:right;">'+dfTotalLabel+' '+fmt(Math.abs(dfTotal))+'</td>'
+        +'</tr>'
+        +'</tbody>'
+        +'</table>'
+        +'<div class="rpt-consolidado no-print">'
+        +'<div class="rpt-consolidado-title">Consolidado por Categor\u00eda</div>'
+        +'<div class="rpt-consolidado-grid">'+conHtml+'</div>'
+        +'</div>'
+        +'<div class="rpt-firmas">'
+        +'<div class="rpt-firma"><div class="rpt-firma-line"></div>'
+        +'<p><strong>'+(d.infoGeneral.lider||'L\u00edder Responsable')+'</strong></p>'
+        +'<p>Elaborado por</p></div>'
+        +'<div class="rpt-firma"><div class="rpt-firma-line"></div>'
+        +'<p><strong>Autorizado por</strong></p><p>Firma y sello</p></div>'
+        +'</div>'
+        +'</div>';
+}
+
+/* ── imprimir ── */
+function imprimirInforme(){
+    var d=informeSeleccionado||{
+        infoGeneral:{
+            lider:document.getElementById('lider').value,
+            semana:document.getElementById('semana').value,
+            cuarto:document.getElementById('cuarto').value
+        }
+    };
+    var lider=(d.infoGeneral.lider||'Lider').trim();
+    var semana=(d.infoGeneral.semana||'?').trim();
+    var cuarto=(d.infoGeneral.cuarto||'?').trim();
+    var titulo=lider+' - Liquidaci\u00f3n Semana '+semana+' Cuarto '+cuarto;
+    var prev=document.title;
+    document.title=titulo;
+    window.print();
+    document.title=prev;
 }
 
 mostrarVista('registro');
